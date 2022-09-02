@@ -10,3 +10,7 @@ export interface UrlModel {
   originalUrl: string;
   link: string;
 }
+
+export interface LoginResponse {
+  accessToken: string;
+}

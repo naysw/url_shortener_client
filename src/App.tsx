@@ -4,6 +4,8 @@ import "./App.css";
 import "./index.css";
 import reactQueryClient from "./lib/reactQuery";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <QueryClientProvider client={reactQueryClient}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </QueryClientProvider>
       </BrowserRouter>

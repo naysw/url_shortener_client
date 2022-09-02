@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ACCESS_TOKEN, DEFAULT_HEADERS } from "../config/app";
 import { API_URI } from "../config/constants";
 
 /**
@@ -6,15 +7,15 @@ import { API_URI } from "../config/constants";
  */
 const axiosClient = axios.create({
   baseURL: API_URI,
-  // headers: DEFAULT_HEADERS,
+  headers: DEFAULT_HEADERS,
 });
 
 axiosClient.interceptors.request.use((config) => {
   if (!config.headers) return;
 
-  // config.headers["Authorization"] = `Bearer ${window.localStorage.getItem(
-  //   ACCESS_TOKEN
-  // )}`;
+  config.headers["Authorization"] = `Bearer ${window.localStorage.getItem(
+    ACCESS_TOKEN,
+  )}`;
 
   return config;
 });

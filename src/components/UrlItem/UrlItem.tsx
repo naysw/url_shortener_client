@@ -1,6 +1,6 @@
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-import Button from "../../nsw/components/ui/Button";
+import Button from "../../nsw/ui/components/Button";
 import { UrlModel } from "../../types";
 
 interface Props extends UrlModel {}

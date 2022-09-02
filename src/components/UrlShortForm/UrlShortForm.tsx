@@ -3,7 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useUrlHistory } from "../../hooks/useUrlHistory";
 import { useUrlShortMutation } from "../../hooks/useUrlShortMutation";
-import Button from "../../nsw/components/ui/Button";
+import Button from "../../nsw/ui/components/Button";
 import { UrlModel } from "../../types";
 import ErrorMessage from "../ErrorMessage";
 import UrlHistory from "../UrlHistory";
