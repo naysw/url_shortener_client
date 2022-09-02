@@ -11,7 +11,7 @@ interface FormValues {
   originalUrl: string;
 }
 
-type ButtonStatus = "copyState" | "submitState" | "copied";
+type ButtonStatus = "copyState" | "submitState" | "copiedState";
 
 const UrlShortener = () => {
   const { mutate, isLoading, isError } = useUrlShortMutation();
@@ -28,9 +28,9 @@ const UrlShortener = () => {
 
   console.log(history);
 
-  function handleSuccess({ id, originalUrl, shortCode }: UrlModel) {
-    setHistory((pre: any) => [...pre, { id, originalUrl }]);
-    setValue("originalUrl", shortCode);
+  function handleSuccess({ id, originalUrl, shortCode, link }: UrlModel) {
+    setHistory((pre: any) => [...pre, { id, originalUrl, shortCode, link }]);
+    setValue("originalUrl", link);
     setButtonStatus("copyState");
   }
 
@@ -39,7 +39,7 @@ const UrlShortener = () => {
     if (buttonStatus === "submitState") return;
 
     // we copy to clipboard and set button status to copied state
-    setButtonStatus("copied");
+    setButtonStatus("copiedState");
 
     // we focus on input and select value
     setFocus("originalUrl", { shouldSelect: true });
@@ -67,7 +67,9 @@ const UrlShortener = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-4xl mx-auto">
+      <h1 className="mb-8 font-bold text-4xl">Shorten URLs</h1>
+
       <form onSubmit={handleSubmit(onSubmit)} className="flex items-center">
         <label htmlFor="originalUrl" className="sr-only">
           Shorten
@@ -83,11 +85,12 @@ const UrlShortener = () => {
           />
         </div>
 
+        {/* <CopyToClipboard text={""} onCopy={() => console.log("Copied")}> */}
         <button
           type={buttonStatus === "submitState" ? "submit" : "button"}
           onClick={handleClickButton}
           className={clsx(
-            buttonStatus === "copied"
+            buttonStatus === "copiedState"
               ? "bg-green-600 hover:bg-green-600"
               : "bg-blue-700  hover:bg-blue-800 focus:ring-blue-300",
             "inline-flex items-center py-4 px-10 ml-2 text-sm font-medium text-white  rounded-lg borderfocus:ring-4 focus:outline-none ",
@@ -95,15 +98,16 @@ const UrlShortener = () => {
         >
           {buttonStatus === "copyState"
             ? "Copy"
-            : buttonStatus === "copied"
+            : buttonStatus === "copiedState"
             ? "Copied!"
             : "Shorten"}
         </button>
+        {/* </CopyToClipboard> */}
       </form>
 
       {errorMessage && <ErrorMessage message={errorMessage} />}
 
-      <UrlHistory />
+      {history && history.length ? <UrlHistory /> : null}
     </div>
   );
 };

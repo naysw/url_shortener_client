@@ -8,4 +8,5 @@ export interface UrlModel {
   id: string;
   shortCode: string;
   originalUrl: string;
+  link: string;
 }
