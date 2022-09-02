@@ -1,41 +1,53 @@
 import clsx from "clsx";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useUrlHistory } from "../../hooks/useUrlHistory";
+import { useLinkHistory } from "../../hooks/useLinkHistory";
 import { useUrlShortMutation } from "../../hooks/useUrlShortMutation";
+import Alert from "../../nsw/ui/components/Alert";
 import Button from "../../nsw/ui/components/Button";
 import TextField from "../../nsw/ui/components/TextField";
 import { UrlModel } from "../../types";
-import ErrorMessage from "../ErrorMessage";
-import UrlHistory from "../UrlHistory";
+import UrlHistory from "../LinkHistory";
 
 interface FormValues {
-  originalUrl: string;
+  fullUrl: string;
 }
 
 type ButtonStatus = "copyState" | "submitState" | "copiedState";
 
-const UrlShortForm = () => {
+const LinkShortForm = () => {
   const { mutate, isLoading, isError } = useUrlShortMutation();
-  const { history, setHistory } = useUrlHistory();
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-  const { register, handleSubmit, setValue, setFocus } = useForm<FormValues>({
+  const { history, setHistory } = useLinkHistory();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setFocus,
+    setError,
+    formState: { isValid, isDirty, touchedFields, errors },
+  } = useForm<FormValues>({
     defaultValues: {
-      originalUrl: "",
+      fullUrl: "",
     },
   });
   const [buttonStatus, setButtonStatus] =
     React.useState<ButtonStatus>("submitState");
   const inputRef = React.useRef<HTMLInputElement>(null);
 
+  React.useEffect(() => {
+    if (buttonStatus === "copyState") {
+      console.log("CP");
+    }
+  }, [buttonStatus]);
+
   /**
    * handle success
    *
    * @param param0 UrlModel
    */
-  function handleSuccess({ id, originalUrl, shortCode, link }: UrlModel) {
-    setHistory((pre: any) => [{ id, originalUrl, shortCode, link }, ...pre]);
-    setValue("originalUrl", link);
+  function handleSuccess({ id, fullUrl, shortCode, link }: UrlModel) {
+    setHistory((pre: any) => [{ id, fullUrl, shortCode, link }, ...pre]);
+    setValue("fullUrl", link);
     setButtonStatus("copyState");
   }
 
@@ -47,22 +59,27 @@ const UrlShortForm = () => {
     setButtonStatus("copiedState");
 
     // we focus on input and select value
-    setFocus("originalUrl", { shouldSelect: true });
+    setFocus("fullUrl", { shouldSelect: true });
 
     setTimeout(() => {
       setButtonStatus("copyState");
     }, 1000);
   }
 
-  function onSubmit({ originalUrl }: FormValues) {
+  function onSubmit({ fullUrl }: FormValues) {
     mutate(
-      { originalUrl },
+      { fullUrl },
       {
         onSuccess: ({ data }) => handleSuccess(data),
         onError: (error: any) => {
-          setErrorMessage(
-            error?.message ||
-              "Something went wrong with this url, please try again",
+          setError(
+            "fullUrl",
+            {
+              message:
+                error?.message ||
+                "Something went wrong with this url, please try again",
+            },
+            { shouldFocus: true },
           );
         },
       },
@@ -74,14 +91,27 @@ const UrlShortForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex items-center">
         <div className="w-full">
           <TextField
-            {...register("originalUrl")}
+            {...register("fullUrl")}
             placeholder="Shorten your link"
             fullWidth
+            className={
+              buttonStatus === "submitState"
+                ? ""
+                : "text-blue-600 font-semibold"
+            }
+            error={
+              touchedFields.fullUrl && errors.fullUrl && Boolean(errors.fullUrl)
+            }
+            // helperText={
+            //   touchedFields.fullUrl &&
+            //   errors.fullUrl &&
+            //   errors.fullUrl.message
+            // }
           />
         </div>
 
         <Button
-          disabled={isLoading}
+          disabled={isLoading || !(isValid && isDirty)}
           type={buttonStatus === "submitState" ? "submit" : "button"}
           onClick={handleClickButton}
           className={clsx(
@@ -101,11 +131,15 @@ const UrlShortForm = () => {
         </Button>
       </form>
 
-      {errorMessage && <ErrorMessage message={errorMessage} />}
+      {errors.fullUrl && (
+        <Alert severity="error" className="mt-4">
+          {errors.fullUrl.message}
+        </Alert>
+      )}
 
       {history && history.length ? <UrlHistory /> : null}
     </div>
   );
 };
 
-export default UrlShortForm;
+export default LinkShortForm;

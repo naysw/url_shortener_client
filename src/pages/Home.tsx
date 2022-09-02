@@ -1,11 +1,11 @@
 import Layout from "../components/Layout";
-import UrlShortBox from "../components/UrlShortForm";
+import LinkShortForm from "../components/LinkShortForm";
 
 const Home = () => {
   return (
     <Layout>
       <div className="py-10">
-        <UrlShortBox />
+        <LinkShortForm />
       </div>
     </Layout>
   );

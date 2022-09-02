@@ -2,18 +2,18 @@ import axiosClient from "../lib/axios";
 import { ServerResponse, UrlModel } from "../types";
 
 interface MakeShortPayload {
-  originalUrl: string;
+  fullUrl: string;
 }
 
 export const fetchManyUrls = async (payload: any) => {
-  const res = await axiosClient.get<ServerResponse<UrlModel[]>>("api/url");
+  const res = await axiosClient.get<ServerResponse<UrlModel[]>>("api/links");
 
   return res.data;
 };
 
 export const makeShort = async (payload: MakeShortPayload) => {
   const res = await axiosClient.post<ServerResponse<UrlModel>>(
-    "/api/url/short",
+    "/api/links/short",
     payload,
   );
 
@@ -21,7 +21,7 @@ export const makeShort = async (payload: MakeShortPayload) => {
 };
 
 export const deleteUrl = async (urlId: string) => {
-  const res = await axiosClient.delete(`api/url/${urlId}`);
+  const res = await axiosClient.delete(`api/links/${urlId}`);
 
   return res.data;
 };

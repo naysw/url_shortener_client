@@ -4,7 +4,7 @@ import { UrlModel } from "../types";
 
 const initialValues: UrlModel[] = [];
 
-export const useUrlHistory = () => {
+export const useLinkHistory = () => {
   const [value, setValue, removeValue] = useLocalStorage<UrlModel[]>(
     URL_HISTORY_KEY,
     initialValues,

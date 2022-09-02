@@ -7,7 +7,7 @@ export interface ServerResponse<TData> {
 export interface UrlModel {
   id: string;
   shortCode: string;
-  originalUrl: string;
+  fullUrl: string;
   link: string;
 }
 

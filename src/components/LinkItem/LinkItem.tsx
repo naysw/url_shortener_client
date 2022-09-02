@@ -5,7 +5,7 @@ import { UrlModel } from "../../types";
 
 interface Props extends UrlModel {}
 
-const UrlItem = ({ originalUrl, link }: Props) => {
+const LinkItem = ({ fullUrl, link }: Props) => {
   const [copied, setCopied] = React.useState<boolean>(false);
 
   function handleCopyLink() {
@@ -18,7 +18,7 @@ const UrlItem = ({ originalUrl, link }: Props) => {
 
   return (
     <div className="flex items-center hover:bg-blue-100 px-6 py-4 rounded">
-      <div className="flex-1 text-gray-600">{originalUrl}</div>
+      <div className="flex-1 text-gray-600">{fullUrl}</div>
       <div className="flex items-center">
         <a href={link} className="text-blue-600">
           {link}
@@ -34,4 +34,4 @@ const UrlItem = ({ originalUrl, link }: Props) => {
   );
 };
 
-export default UrlItem;
+export default LinkItem;

@@ -11,12 +11,12 @@ interface Props {
   urls: UrlModel[];
 }
 
-const UrlTable = ({ urls }: Props) => {
+const LinkTable = ({ urls }: Props) => {
   const columns = React.useMemo<Column[]>(
     () => [
       {
         Header: "Original url",
-        accessor: "originalUrl",
+        accessor: "fullUrl",
         Cell: ({ cell: { value } }) => (
           <div>
             <a href={value}>{value}</a>
@@ -65,4 +65,4 @@ const UrlTable = ({ urls }: Props) => {
   return <DataTable columns={columns} data={urls} />;
 };
 
-export default UrlTable;
+export default LinkTable;

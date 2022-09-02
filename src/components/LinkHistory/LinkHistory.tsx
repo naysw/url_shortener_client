@@ -1,9 +1,9 @@
-import { useUrlHistory } from "../../hooks/useUrlHistory";
+import { useLinkHistory } from "../../hooks/useLinkHistory";
 import { UrlModel } from "../../types";
-import UrlItem from "../UrlItem";
+import LinkItem from "../LinkItem";
 
-const UrlHistory = () => {
-  const { history } = useUrlHistory();
+const LinkHistory = () => {
+  const { history } = useLinkHistory();
 
   function renderableHistories(value: UrlModel[]) {
     return true;
@@ -14,10 +14,10 @@ const UrlHistory = () => {
       {history && renderableHistories(history)
         ? history
             .slice(0, 5)
-            .map(({ id, originalUrl, shortCode, link }, index) => (
-              <UrlItem
+            .map(({ id, fullUrl, shortCode, link }, index) => (
+              <LinkItem
                 key={index}
-                originalUrl={originalUrl}
+                fullUrl={fullUrl}
                 link={link}
                 id={id}
                 shortCode={shortCode}
@@ -28,4 +28,4 @@ const UrlHistory = () => {
   );
 };
 
-export default UrlHistory;
+export default LinkHistory;

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { deleteUrl } from "../api/url";
+import { deleteUrl } from "../api/link";
 
-export const useDeleteUrlMutation = () => {
+export const useDeleteLinkMutation = () => {
   return useMutation(deleteUrl);
 };

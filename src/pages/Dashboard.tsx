@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import UrlTable from "../components/UrlTable";
+import UrlTable from "../components/LinkTable";
 import { useUrlsQuery } from "../hooks/useUrlsQuery";
 
 const Dashboard = () => {
@@ -7,7 +7,6 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      Dashboard
       {data && !isLoading && !isError ? (
         <div>
           <UrlTable urls={data.data} />
