@@ -14,7 +14,7 @@ interface FormValues {
 
 type ButtonStatus = "copyState" | "submitState" | "copiedState";
 
-const UrlShortener = () => {
+const UrlShortForm = () => {
   const { mutate, isLoading, isError } = useUrlShortMutation();
   const { history, setHistory } = useUrlHistory();
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
@@ -111,4 +111,4 @@ const UrlShortener = () => {
   );
 };
 
-export default UrlShortener;
+export default UrlShortForm;

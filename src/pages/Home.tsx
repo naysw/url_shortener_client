@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import UrlShortBox from "../components/UrlShortener";
+import UrlShortBox from "../components/UrlShortForm";
 
 const Home = () => {
   return (
