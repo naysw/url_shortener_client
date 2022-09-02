@@ -44,10 +44,11 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
     ref,
   ) => {
     const classes = clsx(
+      "focus:ring-2",
       fullWidth && "w-full",
       "uppercase font-bold rounded",
       disabled &&
-        "bg-gray-600 bg-opacity-40 text-gray-400 border-transparent pointer-events-none",
+        "bg-gray-600 bg-opacity-40 text-gray-400 border-transparent pointer-events-none ",
       {
         ["px-2 py-1"]: size === "small",
         ["px-4 py-2"]: size === "medium",
