@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useUrlHistory } from "../../hooks/useUrlHistory";
 import { useUrlShortMutation } from "../../hooks/useUrlShortMutation";
 import Button from "../../nsw/ui/components/Button";
+import TextField from "../../nsw/ui/components/TextField";
 import { UrlModel } from "../../types";
 import ErrorMessage from "../ErrorMessage";
 import UrlHistory from "../UrlHistory";
@@ -27,6 +28,11 @@ const UrlShortForm = () => {
     React.useState<ButtonStatus>("submitState");
   const inputRef = React.useRef<HTMLInputElement>(null);
 
+  /**
+   * handle success
+   *
+   * @param param0 UrlModel
+   */
   function handleSuccess({ id, originalUrl, shortCode, link }: UrlModel) {
     setHistory((pre: any) => [{ id, originalUrl, shortCode, link }, ...pre]);
     setValue("originalUrl", link);
@@ -52,9 +58,7 @@ const UrlShortForm = () => {
     mutate(
       { originalUrl },
       {
-        onSuccess: ({ data }) => {
-          handleSuccess(data);
-        },
+        onSuccess: ({ data }) => handleSuccess(data),
         onError: (error: any) => {
           setErrorMessage(
             error?.message ||
@@ -68,21 +72,14 @@ const UrlShortForm = () => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex items-center">
-        <label htmlFor="originalUrl" className="sr-only">
-          Shorten
-        </label>
-
-        <div className="relative w-full">
-          <input
-            type="text"
-            id="originalUrl"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-4 py-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Shorten your link"
+        <div className="w-full">
+          <TextField
             {...register("originalUrl")}
+            placeholder="Shorten your link"
+            fullWidth
           />
         </div>
 
-        {/* <CopyToClipboard text={""} onCopy={() => console.log("Copied")}> */}
         <Button
           disabled={isLoading}
           type={buttonStatus === "submitState" ? "submit" : "button"}
@@ -91,7 +88,7 @@ const UrlShortForm = () => {
             buttonStatus === "copiedState"
               ? "bg-green-600 "
               : "bg-blue-700  focus:ring-blue-300",
-            "py-4 !px-10 ml-2 text-white borderfocus:ring-4 focus:outline-none ",
+            "!py-4 !px-20 ml-6 text-white borderfocus:ring-4 focus:outline-none ",
           )}
         >
           {buttonStatus === "copyState"
