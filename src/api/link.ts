@@ -3,6 +3,7 @@ import { ServerResponse, UrlModel } from "../types";
 
 interface MakeShortPayload {
   fullUrl: string;
+  expiredAt?: string;
 }
 
 export const fetchManyUrls = async (payload: any) => {
