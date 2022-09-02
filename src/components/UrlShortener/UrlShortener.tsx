@@ -3,6 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useUrlHistory } from "../../hooks/useUrlHistory";
 import { useUrlShortMutation } from "../../hooks/useUrlShortMutation";
+import Button from "../../nsw/components/ui/Button";
 import { UrlModel } from "../../types";
 import ErrorMessage from "../ErrorMessage";
 import UrlHistory from "../UrlHistory";
@@ -26,10 +27,8 @@ const UrlShortener = () => {
     React.useState<ButtonStatus>("submitState");
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  console.log(history);
-
   function handleSuccess({ id, originalUrl, shortCode, link }: UrlModel) {
-    setHistory((pre: any) => [...pre, { id, originalUrl, shortCode, link }]);
+    setHistory((pre: any) => [{ id, originalUrl, shortCode, link }, ...pre]);
     setValue("originalUrl", link);
     setButtonStatus("copyState");
   }
@@ -67,9 +66,7 @@ const UrlShortener = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="mb-8 font-bold text-4xl">Shorten URLs</h1>
-
+    <div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex items-center">
         <label htmlFor="originalUrl" className="sr-only">
           Shorten
@@ -86,23 +83,25 @@ const UrlShortener = () => {
         </div>
 
         {/* <CopyToClipboard text={""} onCopy={() => console.log("Copied")}> */}
-        <button
+        <Button
+          disabled={isLoading}
           type={buttonStatus === "submitState" ? "submit" : "button"}
           onClick={handleClickButton}
           className={clsx(
             buttonStatus === "copiedState"
-              ? "bg-green-600 hover:bg-green-600"
-              : "bg-blue-700  hover:bg-blue-800 focus:ring-blue-300",
-            "inline-flex items-center py-4 px-10 ml-2 text-sm font-medium text-white  rounded-lg borderfocus:ring-4 focus:outline-none ",
+              ? "bg-green-600 "
+              : "bg-blue-700  focus:ring-blue-300",
+            "py-4 !px-10 ml-2 text-white borderfocus:ring-4 focus:outline-none ",
           )}
         >
           {buttonStatus === "copyState"
-            ? "Copy"
+            ? isLoading
+              ? "Please wait.."
+              : "Copy"
             : buttonStatus === "copiedState"
             ? "Copied!"
             : "Shorten"}
-        </button>
-        {/* </CopyToClipboard> */}
+        </Button>
       </form>
 
       {errorMessage && <ErrorMessage message={errorMessage} />}
