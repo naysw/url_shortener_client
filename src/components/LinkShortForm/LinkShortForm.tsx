@@ -22,7 +22,7 @@ type ButtonStatus = "copyState" | "submitState" | "copiedState";
 
 const LinkShortForm = () => {
   const [showAdvanced, setShowAdvanced] = React.useState<boolean>(false);
-  const { mutate, isLoading, isError } = useUrlShortMutation();
+  const { mutate, isLoading } = useUrlShortMutation();
   const { history, setHistory } = useLinkHistory();
 
   const validationSchema = Yup.object({
@@ -38,7 +38,7 @@ const LinkShortForm = () => {
     setValue,
     setFocus,
     setError,
-    formState: { isValid, isDirty, touchedFields, errors },
+    formState: { isValid, touchedFields, errors },
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
@@ -49,7 +49,6 @@ const LinkShortForm = () => {
   });
   const [buttonStatus, setButtonStatus] =
     React.useState<ButtonStatus>("submitState");
-  const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     if (buttonStatus === "copyState") {

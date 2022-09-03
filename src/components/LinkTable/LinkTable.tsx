@@ -3,6 +3,7 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 import React from "react";
 import { Column } from "react-table";
+import { useDeleteLinkMutation } from "../../hooks/useDeleteLinkMutation";
 import DataTable from "../../nsw/components/DataTable";
 import IconButton from "../../nsw/ui/components/IconButton";
 import { UrlModel } from "../../types";
@@ -12,6 +13,12 @@ interface Props {
 }
 
 const LinkTable = ({ urls }: Props) => {
+  const { mutate, isLoading: isDeleting } = useDeleteLinkMutation();
+
+  const handleDelete = React.useCallback((urlId: string) => {
+    mutate(urlId);
+  }, []);
+
   const columns = React.useMemo<Column[]>(
     () => [
       {
@@ -50,16 +57,21 @@ const LinkTable = ({ urls }: Props) => {
       {
         Header: "Action",
         accessor: "action",
-        Cell: ({ cell: { value } }) => (
+        Cell: ({
+          cell: {
+            value,
+            row: { original },
+          },
+        }: any) => (
           <div>
-            <IconButton>
+            <IconButton onClick={() => handleDelete(original.id)}>
               <TrashIcon className="w-6 h-6 text-red-600" />
             </IconButton>
           </div>
         ),
       },
     ],
-    [],
+    [handleDelete],
   );
 
   return <DataTable columns={columns} data={urls} />;

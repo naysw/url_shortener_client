@@ -26,7 +26,7 @@ interface FormValues {
 
 const LoginPage = (): React.ReactElement => {
   const navigate = useNavigate();
-  const { mutate, isLoading, isError } = useLoginMutation();
+  const { mutate, isLoading } = useLoginMutation();
   const [message, setMessage] = React.useState<string | null>(null);
   const {
     register,
