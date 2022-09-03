@@ -5,17 +5,21 @@ import { useDebounce } from "react-use";
 import { fetchLinks } from "../api/link";
 import Layout from "../components/Layout";
 import UrlTable from "../components/LinkTable";
+import Pagination from "../components/Pagination";
 import { QUERY_KEYS } from "../config/constants";
 import useAuth from "../hooks/useAuth";
 import TextField from "../nsw/ui/components/TextField";
 import Typography from "../nsw/ui/components/Typography";
 import { Paths } from "../paths";
 
+const TAKE_PER_PAGE = 3;
+
 const Dashboard = () => {
   const { user } = useAuth({ redireactIfUnauthenticated: Paths.LOGIN });
   const [query, setQuery] = React.useState({
+    skip: 0,
+    take: TAKE_PER_PAGE,
     keyword: "",
-    take: 5,
     orderBy: "createdAt",
   });
   const [searchValue, setSearchValue] = React.useState<string>("");
@@ -24,6 +28,7 @@ const Dashboard = () => {
     () =>
       fetchLinks({
         params: {
+          skip: query.skip,
           take: query.take,
           keyword: query.keyword || undefined,
           orderBy: query.orderBy || undefined,
@@ -47,14 +52,24 @@ const Dashboard = () => {
    *
    * @param event React.FormEvent<HTMLInputElement>
    */
-  function handleChangeSearchInput(
+  const handleChangeSearchInput = (
     event: React.FormEvent<HTMLInputElement>,
-  ): void {
+  ): void => {
     const value = event.currentTarget.value.trim();
 
     setQuery((pre) => ({ ...pre, keyword: value ? value : "" }));
     // setSearchValue(event.currentTarget.value.trim());
-  }
+  };
+
+  const handleChangeNext = () => {
+    setQuery((pre) => ({ ...pre, skip: pre.skip + TAKE_PER_PAGE }));
+  };
+
+  const handleChangePre = () => {
+    if (query.skip === 0) return;
+
+    setQuery((pre) => ({ ...pre, skip: pre.skip - TAKE_PER_PAGE }));
+  };
 
   return (
     <Layout>
@@ -86,6 +101,18 @@ const Dashboard = () => {
               </div>
 
               <UrlTable urls={data.data} />
+
+              <div className="flex items-center mt-6">
+                <div className="flex-1">Showing {query.take}</div>
+
+                <Pagination
+                  hasPrePage={Boolean(query.skip === 0)}
+                  hasNextPage={Boolean(data.data.length)}
+                  count={20}
+                  onNext={handleChangeNext}
+                  onPre={handleChangePre}
+                />
+              </div>
             </div>
           ) : (
             <div>Loading</div>
