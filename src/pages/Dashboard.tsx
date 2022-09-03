@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useDebounce } from "react-use";
 import { fetchLinks } from "../api/link";
 import Layout from "../components/Layout";
-import UrlTable from "../components/LinkTable";
+import LinkTable from "../components/LinkTable";
 import Pagination from "../components/Pagination";
 import { QUERY_KEYS } from "../config/constants";
 import useAuth from "../hooks/useAuth";
@@ -100,10 +100,12 @@ const Dashboard = () => {
                 />
               </div>
 
-              <UrlTable urls={data.data} />
+              <div className="overflow-x-auto">
+                <LinkTable urls={data.data} />
+              </div>
 
               <div className="flex items-center mt-6">
-                <div className="flex-1">Showing {query.take}</div>
+                <div className="flex-1">Showing {data.data.length}</div>
 
                 <Pagination
                   hasPrePage={Boolean(query.skip === 0)}
