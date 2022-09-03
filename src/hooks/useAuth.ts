@@ -25,10 +25,8 @@ export default function useAuth({
 }: Props = {}) {
   const navigate = useNavigate();
   const { data, error } = useMeQuery({
-    enabled: !hasLoggedInCookie(),
-    onError: () => {
-      logout();
-    },
+    enabled: hasLoggedInCookie(),
+    onError: () => logout(),
   });
   console.log(useRendersCount());
 

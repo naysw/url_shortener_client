@@ -109,7 +109,7 @@ const LinkShortForm = () => {
   }
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-2xl mx-auto">
       <form onSubmit={handleSubmit(onSubmit)} className="mb-10">
         <div className="space-y-4">
           <TextField

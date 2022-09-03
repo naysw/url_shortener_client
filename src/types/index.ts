@@ -14,3 +14,9 @@ export interface UrlModel {
 export interface LoginResponse {
   accessToken: string;
 }
+
+export interface User {
+  id: string;
+  name: string;
+  username: string;
+}
