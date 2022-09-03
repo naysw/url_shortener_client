@@ -1,6 +1,5 @@
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { ClipboardIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { yupResolver } from "@hookform/resolvers/yup";
-import clsx from "clsx";
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useForm } from "react-hook-form";
@@ -9,6 +8,7 @@ import { useLinkHistory } from "../../hooks/useLinkHistory";
 import { useUrlShortMutation } from "../../hooks/useUrlShortMutation";
 import Alert from "../../nsw/ui/components/Alert";
 import Button from "../../nsw/ui/components/Button";
+import IconButton from "../../nsw/ui/components/IconButton";
 import TextField from "../../nsw/ui/components/TextField";
 import Typography from "../../nsw/ui/components/Typography";
 import { UrlModel } from "../../types";
@@ -19,12 +19,11 @@ interface FormValues {
   expiredAt?: string;
 }
 
-type ButtonStatus = "copyState" | "submitState" | "copiedState";
-
 const LinkShortForm = () => {
   const [showAdvanced, setShowAdvanced] = React.useState<boolean>(false);
   const { mutate, isLoading } = useUrlShortMutation();
   const { history, setHistory } = useLinkHistory();
+  const [copy, setCopy] = React.useState(false);
 
   const validationSchema = Yup.object({
     fullUrl: Yup.string()
@@ -40,6 +39,8 @@ const LinkShortForm = () => {
     setFocus,
     setError,
     getValues,
+    control,
+    reset,
     formState: { isValid, touchedFields, errors },
   } = useForm<FormValues>({
     mode: "onChange",
@@ -49,46 +50,28 @@ const LinkShortForm = () => {
     },
     resolver: yupResolver(validationSchema),
   });
-  const [buttonStatus, setButtonStatus] =
-    React.useState<ButtonStatus>("submitState");
-
-  React.useEffect(() => {
-    if (buttonStatus === "copyState") {
-      console.log("CP");
-    }
-  }, [buttonStatus]);
 
   /**
    * handle success
    *
    * @param param0 UrlModel
    */
-  function handleSuccess({ id, fullUrl, shortCode, link }: UrlModel) {
+  const handleSuccess = ({ id, fullUrl, shortCode, link }: UrlModel) => {
     setHistory((pre: any) => [{ id, fullUrl, shortCode, link }, ...pre]);
     setValue("fullUrl", link);
-    setButtonStatus("copyState");
-  }
+  };
 
-  function handleClickButton() {
-    // if button status submit state we don't do anything
-    if (buttonStatus === "submitState") return;
-
-    // we copy to clipboard and set button status to copied state
-    setButtonStatus("copiedState");
-
+  const handleClickButton = () => {
+    setCopy(true);
     // we focus on input and select value
     setFocus("fullUrl", { shouldSelect: true });
 
     setTimeout(() => {
-      setButtonStatus("copyState");
+      setCopy(false);
     }, 1000);
-  }
-
-  const handleCopy = () => {
-    //
   };
 
-  function onSubmit({ fullUrl, expiredAt }: FormValues) {
+  const onSubmit = ({ fullUrl, expiredAt }: FormValues) => {
     mutate(
       { fullUrl, expiredAt: expiredAt || undefined },
       {
@@ -106,7 +89,7 @@ const LinkShortForm = () => {
         },
       },
     );
-  }
+  };
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -116,11 +99,27 @@ const LinkShortForm = () => {
             {...register("fullUrl")}
             placeholder="Shorten your link"
             fullWidth
-            className={
-              buttonStatus === "submitState"
-                ? ""
-                : "text-blue-600 font-semibold"
-            }
+            className="text-blue-600 font-semibold"
+            InputProps={{
+              endAdornment: (
+                <CopyToClipboard
+                  text={getValues().fullUrl}
+                  onCopy={handleClickButton}
+                >
+                  <IconButton
+                    disabled={!getValues().fullUrl}
+                    type="button"
+                    onClick={handleClickButton}
+                  >
+                    <ClipboardIcon
+                      className={`w-7 h-7 ${
+                        copy ? "text-green-600" : "text-gray-600"
+                      }`}
+                    />
+                  </IconButton>
+                </CopyToClipboard>
+              ),
+            }}
             error={
               touchedFields.fullUrl && errors.fullUrl && Boolean(errors.fullUrl)
             }
@@ -157,28 +156,15 @@ const LinkShortForm = () => {
             <span>Advanced Options</span>
           </button>
 
-          <CopyToClipboard text={getValues().fullUrl} onCopy={handleCopy}>
-            <Button
-              disabled={isLoading || !isValid}
-              type={buttonStatus === "submitState" ? "submit" : "button"}
-              onClick={handleClickButton}
-              className={clsx(
-                buttonStatus === "copiedState"
-                  ? "bg-green-600 "
-                  : "bg-blue-700  focus:ring-blue-300",
-                "!py-4 !px-20 text-white borderfocus:ring-4 focus:outline-none",
-              )}
-              fullWidth
-            >
-              {buttonStatus === "copyState"
-                ? isLoading
-                  ? "Please wait.."
-                  : "Copy"
-                : buttonStatus === "copiedState"
-                ? "Copied!"
-                : "Shorten"}
-            </Button>
-          </CopyToClipboard>
+          <Button
+            disabled={isLoading || !isValid}
+            type="submit"
+            onClick={handleClickButton}
+            className="bg-blue-700  focus:ring-blue-300 !py-4 !px-20 text-white borderfocus:ring-4 focus:outline-none"
+            fullWidth
+          >
+            {isLoading ? "Please wait.." : "Shorten"}
+          </Button>
         </div>
       </form>
 

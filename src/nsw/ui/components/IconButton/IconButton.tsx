@@ -9,7 +9,7 @@ interface Props extends React.ComponentProps<"button"> {
 const IconButton = React.forwardRef<HTMLButtonElement, Props>(
   ({ children, className, component = "button", ...others }, ref) => {
     const classes = clsx(
-      "cursor-pointer p-2 rounded-full hover:bg-black hover:bg-opacity-10 transition-all duration-300 ease-in-out",
+      "cursor-pointer p-2 rounded-full hover:bg-black disabled:hover:bg-inherit disabled:cursor-not-allowed hover:bg-opacity-10 focus:ring-4",
       className,
     );
 

@@ -89,11 +89,11 @@ const TextField = React.forwardRef<HTMLInputElement, Props>(
             )}
           />
 
-          {/* {InputProps?.endAdornment && (
-            <span className="select-none flex z-10 h-full font-normal text-center absolute bg-transparent rounded text-base items-center justify-center w-8 pr-3 py-3">
+          {InputProps?.endAdornment && (
+            <span className="select-none absolute top-1.5 left-auto right-1.5">
               {InputProps.endAdornment}
             </span>
-          )} */}
+          )}
         </div>
 
         {helperText && (

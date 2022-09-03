@@ -6,8 +6,10 @@ interface MakeShortPayload {
   expiredAt?: string;
 }
 
-export const fetchManyUrls = async (payload: any) => {
-  const res = await axiosClient.get<ServerResponse<UrlModel[]>>("api/links");
+export const fetchLinks = async (payload: any) => {
+  const res = await axiosClient.get<ServerResponse<UrlModel[]>>("api/links", {
+    params: payload.params,
+  });
 
   return res.data;
 };

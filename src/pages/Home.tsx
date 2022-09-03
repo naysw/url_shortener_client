@@ -4,12 +4,12 @@ import useAuth from "../hooks/useAuth";
 import { Paths } from "../paths";
 
 const Home = () => {
-  useAuth({ redireactIfUnauthenticated: Paths.LOGIN });
+  const { user } = useAuth({ redireactIfUnauthenticated: Paths.LOGIN });
 
   return (
     <Layout>
       <div className="py-10">
-        <LinkShortForm />
+        {user ? <LinkShortForm /> : <div>Loading</div>}
       </div>
     </Layout>
   );

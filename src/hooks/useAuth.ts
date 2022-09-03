@@ -1,7 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useRendersCount } from "react-use";
+import { fetchMe } from "../api/users";
 import {
   ACCESS_TOKEN,
   IS_LOGGED_IN_KEY,
@@ -9,7 +11,7 @@ import {
   REDIRECT_IF_AUTHENTICATED,
   REDIRECT_IF_UNAUTHENTICATED,
 } from "../config/app";
-import { useMeQuery } from "./useMeQuery";
+import { QUERY_KEYS } from "../config/constants";
 
 type Guard = "auth" | "guest";
 
@@ -24,7 +26,7 @@ export default function useAuth({
   redireactIfUnauthenticated = true,
 }: Props = {}) {
   const navigate = useNavigate();
-  const { data, error } = useMeQuery({
+  const { data, error } = useQuery([QUERY_KEYS.ME], fetchMe, {
     enabled: hasLoggedInCookie(),
     onError: () => logout(),
   });
