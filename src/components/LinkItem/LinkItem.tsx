@@ -18,9 +18,9 @@ const LinkItem = ({ fullUrl, link }: Props) => {
 
   return (
     <div className="flex items-center hover:bg-blue-100 px-6 py-4 rounded">
-      <div className="flex-1 text-gray-600">{fullUrl}</div>
+      <div className="flex-1 text-gray-600 break-all">{fullUrl}</div>
       <div className="flex items-center">
-        <a href={link} className="text-blue-600">
+        <a href={link} className="text-blue-600 break-all">
           {link}
         </a>
 

@@ -106,11 +106,7 @@ const LinkShortForm = () => {
                   text={getValues().fullUrl}
                   onCopy={handleClickButton}
                 >
-                  <IconButton
-                    disabled={!getValues().fullUrl}
-                    type="button"
-                    onClick={handleClickButton}
-                  >
+                  <IconButton disabled={!getValues().fullUrl} type="button">
                     <ClipboardIcon
                       className={`w-7 h-7 ${
                         copy ? "text-green-600" : "text-gray-600"
@@ -159,7 +155,6 @@ const LinkShortForm = () => {
           <Button
             disabled={isLoading || !isValid}
             type="submit"
-            onClick={handleClickButton}
             className="bg-blue-700  focus:ring-blue-300 !py-4 !px-20 text-white borderfocus:ring-4 focus:outline-none"
             fullWidth
           >
