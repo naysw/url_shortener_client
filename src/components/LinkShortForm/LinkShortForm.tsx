@@ -22,7 +22,6 @@ const LinkShortForm = () => {
   const [showAdvanced, setShowAdvanced] = React.useState<boolean>(false);
   const { mutate, isLoading } = useUrlShortMutation();
   const { history, setHistory } = useLinkHistory();
-  const [copy, setCopy] = React.useState(false);
 
   const validationSchema = Yup.object({
     fullUrl: Yup.string()
@@ -65,17 +64,9 @@ const LinkShortForm = () => {
       { id, fullUrl, shortCode, shortUrl: link },
       ...pre,
     ]);
+
     setValue("fullUrl", link);
-  };
-
-  const handleClickButton = () => {
-    setCopy(true);
-    // we focus on input and select value
     setFocus("fullUrl", { shouldSelect: true });
-
-    setTimeout(() => {
-      setCopy(false);
-    }, 1000);
   };
 
   const onSubmit = ({ fullUrl, expiredAt }: FormValues) => {

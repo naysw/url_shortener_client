@@ -16,7 +16,7 @@ const LinkHistory = () => {
   return (
     <div className=" mt-4">
       <QueryStateHandler
-        status={"loading"}
+        status={status}
         error={error}
         data={data}
         renderLoading={new Array(3).fill(0).map((_, index) => (
@@ -25,7 +25,7 @@ const LinkHistory = () => {
       >
         {({ data: links }: any) =>
           links.length ? (
-            <div className="bg-slate-100 rounded-lg py-4">
+            <div className="space-y-2">
               {links.map(
                 (
                   { id, fullUrl, shortCode, shortUrl: link }: any,
@@ -42,7 +42,9 @@ const LinkHistory = () => {
               )}
             </div>
           ) : (
-            <div className="px-6">No History!</div>
+            <div className="px-6 bg-gray-200 py-4 rounded">
+              No History! why not create new one ?
+            </div>
           )
         }
       </QueryStateHandler>
