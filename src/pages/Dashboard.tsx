@@ -15,11 +15,20 @@ const Dashboard = () => {
   const { user } = useAuth({ redireactIfUnauthenticated: Paths.LOGIN });
   const [query, setQuery] = React.useState({
     keyword: "",
+    take: 5,
+    orderBy: "createdAt",
   });
   const [searchValue, setSearchValue] = React.useState<string>("");
   const { data, isLoading, isError } = useQuery(
     [QUERY_KEYS.LINKS, query],
-    () => fetchLinks({ params: query.keyword ? query : undefined }),
+    () =>
+      fetchLinks({
+        params: {
+          take: query.take,
+          keyword: query.keyword || undefined,
+          orderBy: query.orderBy || undefined,
+        },
+      }),
     // {
     //   enabled: Boolean(keyword),
     // },

@@ -44,6 +44,7 @@
     "@types/react-table": "^7.7.12",
     "autoprefixer": "^10.4.8",
     "postcss": "^8.4.16",
+    "prettier": "^2.7.1",
     "tailwindcss": "^3.1.8"
   },
   "eslintConfig": {
@@ -62,6 +63,12 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "prettier --write",
+      "eslint --fix"
     ]
   }
 }

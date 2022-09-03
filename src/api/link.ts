@@ -7,6 +7,7 @@ interface MakeShortPayload {
 }
 
 export const fetchLinks = async (payload: any) => {
+  console.log(payload);
   const res = await axiosClient.get<ServerResponse<UrlModel[]>>("api/links", {
     params: payload.params,
   });

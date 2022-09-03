@@ -19,6 +19,10 @@ const LinkTable = ({ urls }: Props) => {
     mutate(urlId);
   }, []);
 
+  const getFullLink = (fullUrl: string) => {
+    //
+  };
+
   const columns = React.useMemo<Column[]>(
     () => [
       {
@@ -26,7 +30,9 @@ const LinkTable = ({ urls }: Props) => {
         accessor: "fullUrl",
         Cell: ({ cell: { value } }) => (
           <div>
-            <a href={value}>{value}</a>
+            <a href={value} className="text-blue-600 hover:underline">
+              {value.slice(0, 50)}
+            </a>
           </div>
         ),
       },
@@ -64,8 +70,15 @@ const LinkTable = ({ urls }: Props) => {
           },
         }: any) => (
           <div>
-            <IconButton onClick={() => handleDelete(original.id)}>
-              <TrashIcon className="w-6 h-6 text-red-600" />
+            <IconButton
+              disabled={isDeleting}
+              onClick={() => handleDelete(original.id)}
+            >
+              {isDeleting ? (
+                <div className="text-grau-600">Deleting</div>
+              ) : (
+                <TrashIcon className="w-6 h-6 text-red-600" />
+              )}
             </IconButton>
           </div>
         ),
