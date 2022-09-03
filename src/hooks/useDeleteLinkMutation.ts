@@ -6,7 +6,10 @@ export const useDeleteLinkMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation(deleteUrl, {
-    onSuccess: () => {
+    onMutate: () => {
+      // queryClient.
+    },
+    onSettled: () => {
       queryClient.invalidateQueries([QUERY_KEYS.LINKS]);
     },
   });

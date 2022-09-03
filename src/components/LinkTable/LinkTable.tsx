@@ -26,7 +26,7 @@ const LinkTable = ({ urls }: Props) => {
   const columns = React.useMemo<Column[]>(
     () => [
       {
-        Header: "Original url",
+        Header: "URL",
         accessor: "fullUrl",
         Cell: ({ cell: { value }, row: { original } }: any) => (
           <div>
@@ -53,7 +53,7 @@ const LinkTable = ({ urls }: Props) => {
         Header: "Created",
         accessor: "createdAt",
         Cell: ({ cell: { value } }) => (
-          <div>{format(new Date(value), "PPpp")}</div>
+          <div>{format(new Date(value), "PP")}</div>
         ),
       },
       {

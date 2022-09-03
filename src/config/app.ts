@@ -24,3 +24,4 @@ export const REDIRECT_IF_UNAUTHENTICATED = Paths.LOGIN;
  * redirect page if user is authenticated
  */
 export const REDIRECT_IF_AUTHENTICATED = Paths.HOME;
+export const DEFAULT_TAKE = 3;

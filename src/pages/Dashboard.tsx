@@ -6,19 +6,18 @@ import { fetchLinks } from "../api/link";
 import Layout from "../components/Layout";
 import LinkTable from "../components/LinkTable";
 import Pagination from "../components/Pagination";
+import { DEFAULT_TAKE } from "../config/app";
 import { QUERY_KEYS } from "../config/constants";
 import useAuth from "../hooks/useAuth";
 import TextField from "../nsw/ui/components/TextField";
 import Typography from "../nsw/ui/components/Typography";
 import { Paths } from "../paths";
 
-const TAKE_PER_PAGE = 3;
-
 const Dashboard = () => {
   const { user } = useAuth({ redireactIfUnauthenticated: Paths.LOGIN });
   const [query, setQuery] = React.useState({
     skip: 0,
-    take: TAKE_PER_PAGE,
+    take: DEFAULT_TAKE,
     keyword: "",
     orderBy: "createdAt",
   });
@@ -62,22 +61,25 @@ const Dashboard = () => {
   };
 
   const handleChangeNext = () => {
-    setQuery((pre) => ({ ...pre, skip: pre.skip + TAKE_PER_PAGE }));
+    setQuery((pre) => ({ ...pre, skip: pre.skip + DEFAULT_TAKE }));
   };
 
   const handleChangePre = () => {
     if (query.skip === 0) return;
 
-    setQuery((pre) => ({ ...pre, skip: pre.skip - TAKE_PER_PAGE }));
+    setQuery((pre) => ({ ...pre, skip: pre.skip - DEFAULT_TAKE }));
   };
 
   return (
     <Layout>
       {user ? (
         <>
-          <Typography variant="h4" className="mb-4">
-            Welcome {user?.name}
-          </Typography>
+          <div className="flex">
+            <div className="text-2xl mr-1">Welcome</div>
+            <Typography variant="h4" className="mb-4">
+              {user?.name}
+            </Typography>
+          </div>
 
           {data && !isLoading && !isError ? (
             <div>
