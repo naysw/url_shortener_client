@@ -2,6 +2,7 @@ import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { yupResolver } from "@hookform/resolvers/yup";
 import clsx from "clsx";
 import React from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { useLinkHistory } from "../../hooks/useLinkHistory";
@@ -38,6 +39,7 @@ const LinkShortForm = () => {
     setValue,
     setFocus,
     setError,
+    getValues,
     formState: { isValid, touchedFields, errors },
   } = useForm<FormValues>({
     mode: "onChange",
@@ -81,6 +83,10 @@ const LinkShortForm = () => {
       setButtonStatus("copyState");
     }, 1000);
   }
+
+  const handleCopy = () => {
+    //
+  };
 
   function onSubmit({ fullUrl, expiredAt }: FormValues) {
     mutate(
@@ -130,7 +136,16 @@ const LinkShortForm = () => {
               Expiry
             </Typography>
 
-            <TextField type="date" fullWidth {...register("expiredAt")} />
+            <TextField
+              type="date"
+              fullWidth
+              {...register("expiredAt")}
+              error={
+                touchedFields.expiredAt &&
+                errors.expiredAt &&
+                Boolean(errors.expiredAt)
+              }
+            />
           </div>
 
           <button
@@ -142,26 +157,28 @@ const LinkShortForm = () => {
             <span>Advanced Options</span>
           </button>
 
-          <Button
-            disabled={isLoading || !isValid}
-            type={buttonStatus === "submitState" ? "submit" : "button"}
-            onClick={handleClickButton}
-            className={clsx(
-              buttonStatus === "copiedState"
-                ? "bg-green-600 "
-                : "bg-blue-700  focus:ring-blue-300",
-              "!py-4 !px-20 text-white borderfocus:ring-4 focus:outline-none",
-            )}
-            fullWidth
-          >
-            {buttonStatus === "copyState"
-              ? isLoading
-                ? "Please wait.."
-                : "Copy"
-              : buttonStatus === "copiedState"
-              ? "Copied!"
-              : "Shorten"}
-          </Button>
+          <CopyToClipboard text={getValues().fullUrl} onCopy={handleCopy}>
+            <Button
+              disabled={isLoading || !isValid}
+              type={buttonStatus === "submitState" ? "submit" : "button"}
+              onClick={handleClickButton}
+              className={clsx(
+                buttonStatus === "copiedState"
+                  ? "bg-green-600 "
+                  : "bg-blue-700  focus:ring-blue-300",
+                "!py-4 !px-20 text-white borderfocus:ring-4 focus:outline-none",
+              )}
+              fullWidth
+            >
+              {buttonStatus === "copyState"
+                ? isLoading
+                  ? "Please wait.."
+                  : "Copy"
+                : buttonStatus === "copiedState"
+                ? "Copied!"
+                : "Shorten"}
+            </Button>
+          </CopyToClipboard>
         </div>
       </form>
 

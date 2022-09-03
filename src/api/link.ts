@@ -12,6 +12,12 @@ export const fetchManyUrls = async (payload: any) => {
   return res.data;
 };
 
+export const fetchMyLinks = async () => {
+  const res = await axiosClient.get<ServerResponse<UrlModel[]>>("api/links/me");
+
+  return res.data;
+};
+
 export const makeShort = async (payload: MakeShortPayload) => {
   const res = await axiosClient.post<ServerResponse<UrlModel>>(
     "/api/links/short",

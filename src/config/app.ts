@@ -1,3 +1,5 @@
+import { Paths } from "../paths";
+
 export const APP_NAME = "";
 export const DEMO_MODE = false;
 export const ACCESS_TOKEN = "snL61wkX0PvjKmHmvhrZZQmCgMpBIbcs";
@@ -12,3 +14,13 @@ export const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
   accept: "application/json",
 };
+
+/**
+ * redirect page if user is not authenticated
+ */
+export const REDIRECT_IF_UNAUTHENTICATED = Paths.LOGIN;
+
+/**
+ * redirect page if user is authenticated
+ */
+export const REDIRECT_IF_AUTHENTICATED = Paths.HOME;
