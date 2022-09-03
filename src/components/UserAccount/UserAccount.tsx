@@ -19,7 +19,7 @@ const UserAccount = () => {
   return (
     <div>
       {user ? (
-        <div className="h-10 w-10 bg-red-200 rounded-full p-2 text-center cursor-pointer font-bold shadow">
+        <div className="h-10 w-10 bg-red-200 rounded-full p-2 text-center font-bold">
           <Typography className="text-red-500">
             {getShortName(user?.name)}
           </Typography>

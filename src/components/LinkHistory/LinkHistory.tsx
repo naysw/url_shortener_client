@@ -14,11 +14,11 @@ const LinkHistory = () => {
   return (
     <div className="bg-slate-100 rounded-lg py-4 mt-4">
       {!isLoading && !isError && data.data ? (
-        data.data.map(({ id, fullUrl, shortCode, link }, index) => (
+        data.data.map(({ id, fullUrl, shortCode, shortUrl: link }, index) => (
           <LinkItem
             key={index}
             fullUrl={fullUrl}
-            link={link}
+            shortUrl={link}
             id={id}
             shortCode={shortCode}
           />

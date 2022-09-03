@@ -1,17 +1,16 @@
-import { ClipboardIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { useLinkHistory } from "../../hooks/useLinkHistory";
 import { useUrlShortMutation } from "../../hooks/useUrlShortMutation";
 import Alert from "../../nsw/ui/components/Alert";
 import Button from "../../nsw/ui/components/Button";
-import IconButton from "../../nsw/ui/components/IconButton";
 import TextField from "../../nsw/ui/components/TextField";
 import Typography from "../../nsw/ui/components/Typography";
 import { UrlModel } from "../../types";
+import CopyButton from "../CopyButton";
 import UrlHistory from "../LinkHistory";
 
 interface FormValues {
@@ -56,8 +55,16 @@ const LinkShortForm = () => {
    *
    * @param param0 UrlModel
    */
-  const handleSuccess = ({ id, fullUrl, shortCode, link }: UrlModel) => {
-    setHistory((pre: any) => [{ id, fullUrl, shortCode, link }, ...pre]);
+  const handleSuccess = ({
+    id,
+    fullUrl,
+    shortCode,
+    shortUrl: link,
+  }: UrlModel) => {
+    setHistory((pre: any) => [
+      { id, fullUrl, shortCode, shortUrl: link },
+      ...pre,
+    ]);
     setValue("fullUrl", link);
   };
 
@@ -101,20 +108,7 @@ const LinkShortForm = () => {
             fullWidth
             className="text-blue-600 font-semibold"
             InputProps={{
-              endAdornment: (
-                <CopyToClipboard
-                  text={getValues().fullUrl}
-                  onCopy={handleClickButton}
-                >
-                  <IconButton disabled={!getValues().fullUrl} type="button">
-                    <ClipboardIcon
-                      className={`w-7 h-7 ${
-                        copy ? "text-green-600" : "text-gray-600"
-                      }`}
-                    />
-                  </IconButton>
-                </CopyToClipboard>
-              ),
+              endAdornment: <CopyButton text={getValues().fullUrl} />,
             }}
             error={
               touchedFields.fullUrl && errors.fullUrl && Boolean(errors.fullUrl)

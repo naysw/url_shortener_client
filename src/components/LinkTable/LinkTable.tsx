@@ -1,5 +1,4 @@
-import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
-import { TrashIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import React from "react";
 import { Column } from "react-table";
@@ -7,6 +6,7 @@ import { useDeleteLinkMutation } from "../../hooks/useDeleteLinkMutation";
 import DataTable from "../../nsw/components/DataTable";
 import IconButton from "../../nsw/ui/components/IconButton";
 import { UrlModel } from "../../types";
+import CopyButton from "../CopyButton";
 
 interface Props {
   urls: UrlModel[];
@@ -16,7 +16,7 @@ const LinkTable = ({ urls }: Props) => {
   const { mutate, isLoading: isDeleting } = useDeleteLinkMutation();
 
   const handleDelete = React.useCallback((urlId: string) => {
-    mutate(urlId);
+    if (window.confirm("Are you sure you want to delete ?")) mutate(urlId);
   }, []);
 
   const getFullLink = (fullUrl: string) => {
@@ -28,24 +28,13 @@ const LinkTable = ({ urls }: Props) => {
       {
         Header: "Original url",
         accessor: "fullUrl",
-        Cell: ({ cell: { value } }) => (
+        Cell: ({ cell: { value }, row: { original } }: any) => (
           <div>
             <a href={value} className="text-blue-600 hover:underline">
               {value.slice(0, 50)}
             </a>
+            <div>{original.shortUrl}</div>
           </div>
-        ),
-      },
-      {
-        Header: "Short Link",
-        accessor: "link",
-        Cell: ({ cell: { value } }) => <div>{value}</div>,
-      },
-      {
-        Header: "Created",
-        accessor: "createdAt",
-        Cell: ({ cell: { value } }) => (
-          <div>{format(new Date(value), "PPpp")}</div>
         ),
       },
       {
@@ -54,10 +43,17 @@ const LinkTable = ({ urls }: Props) => {
         Cell: ({ cell: { value } }) => (
           <div>
             {value.length}
-            <IconButton>
+            {/* <IconButton>
               <EllipsisHorizontalCircleIcon className="w-6 h-6" />
-            </IconButton>
+            </IconButton> */}
           </div>
+        ),
+      },
+      {
+        Header: "Created",
+        accessor: "createdAt",
+        Cell: ({ cell: { value } }) => (
+          <div>{format(new Date(value), "PPpp")}</div>
         ),
       },
       {
@@ -70,6 +66,7 @@ const LinkTable = ({ urls }: Props) => {
           },
         }: any) => (
           <div>
+            <CopyButton text={original.shortUrl} />
             <IconButton
               disabled={isDeleting}
               onClick={() => handleDelete(original.id)}

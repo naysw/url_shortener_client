@@ -8,7 +8,7 @@ export interface UrlModel {
   id: string;
   shortCode: string;
   fullUrl: string;
-  link: string;
+  shortUrl: string;
 }
 
 export interface LoginResponse {
