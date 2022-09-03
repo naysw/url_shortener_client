@@ -1,4 +1,4 @@
-name: NSW_URL_SHORTERN
+name: NSW_URL_SHORTERN_CLIENT
 description: App description
 ignoreFiles: .husky .vscode build node_modules test .dockerignore .env .env.development .env.development.local .env.example .env.local .env.production .gitignore .git .npmrc .prettierrc docker-compose.prod.yml docker-compose.yml Procfile README.md
 modules:
