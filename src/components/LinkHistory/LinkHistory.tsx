@@ -1,17 +1,10 @@
-import { useLinkHistory } from "../../hooks/useLinkHistory";
 import { useMyLinksQuery } from "../../hooks/useMyLinksQuery";
-import { UrlModel } from "../../types";
 import LinkItem from "../LinkItem";
 import LinkItemSkeleton from "../LinkItemSkeleton";
 import QueryStateHandler from "../QueryStateHandler";
 
 const LinkHistory = () => {
-  const { history } = useLinkHistory();
   const { data, status, error } = useMyLinksQuery();
-
-  function renderableHistories(value: UrlModel[]) {
-    return true;
-  }
 
   return (
     <div className=" mt-4">

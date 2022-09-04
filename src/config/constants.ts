@@ -4,3 +4,17 @@ export const QUERY_KEYS = {
   LINKS: "LINKS",
   ME: "ME",
 };
+
+export const DEMO_ADMINS = [
+  {
+    username: "admin",
+    password: "password",
+  },
+];
+
+export const DEMO_USERS = [
+  {
+    username: "user",
+    password: "password",
+  },
+];

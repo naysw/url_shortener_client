@@ -19,9 +19,19 @@ export interface User {
   id: string;
   name: string;
   username: string;
+  roles?: Role[];
 }
 
 export interface Visit {
   id: string;
   ip: string;
 }
+
+/**
+ * Model Role
+ *
+ */
+export type Role = {
+  id: string;
+  name: string;
+};

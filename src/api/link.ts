@@ -24,7 +24,9 @@ export const fetctLinkDetails = async (id: string) => {
 };
 
 export const fetchMyLinks = async () => {
-  const res = await axiosClient.get<ServerResponse<UrlModel[]>>("api/links/me");
+  const res = await axiosClient.get<ServerResponse<UrlModel[]>>(
+    "api/links/my-links",
+  );
 
   return res.data;
 };

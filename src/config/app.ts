@@ -25,3 +25,4 @@ export const REDIRECT_IF_UNAUTHENTICATED = Paths.LOGIN;
  */
 export const REDIRECT_IF_AUTHENTICATED = Paths.HOME;
 export const DEFAULT_TAKE = 3;
+export const IS_DEMO_MOE = true;

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { Paths } from "../../paths";
+import { hasRole, Roles } from "../../utils/roles";
 import NavMenuLink from "../NavMenuLink";
 import UserAccount from "../UserAccount";
 
@@ -19,7 +20,9 @@ const Navbar = () => {
         {user ? (
           <div className="mx-4 flex space-x-4">
             <NavMenuLink to={Paths.HOME}>Home</NavMenuLink>
-            <NavMenuLink to={Paths.ADMIN}>Admin</NavMenuLink>
+            {hasRole(user.roles, Roles.ADMIN) && (
+              <NavMenuLink to={Paths.ADMIN}>Admin</NavMenuLink>
+            )}
             <button onClick={logout}>Logout</button>
           </div>
         ) : null}

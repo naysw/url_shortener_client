@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import AdminGuard from "./components/AdminGuard";
 import { UIProvider } from "./components/UIContext/UIContext";
 import "./index.css";
 import reactQueryClient from "./lib/reactQuery";
@@ -19,7 +20,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<Dashboard />} />
+            <Route
+              path="/admin"
+              element={
+                <AdminGuard>
+                  <Dashboard />
+                </AdminGuard>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </QueryClientProvider>

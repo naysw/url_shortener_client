@@ -1,4 +1,5 @@
 import Layout from "../components/Layout";
+import LinkHistory from "../components/LinkHistory";
 import LinkItemSkeleton from "../components/LinkItemSkeleton";
 import LinkShortForm from "../components/LinkShortForm";
 import useAuth from "../hooks/useAuth";
@@ -11,7 +12,10 @@ const Home = () => {
     <Layout>
       <div className="py-10">
         {user ? (
-          <LinkShortForm />
+          <div>
+            <LinkShortForm />
+            <LinkHistory />
+          </div>
         ) : (
           <div>
             <div className="mb-6">

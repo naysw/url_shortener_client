@@ -9,9 +9,11 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import {
   ACCESS_TOKEN,
+  IS_DEMO_MOE,
   IS_LOGGED_IN_KEY,
   IS_LOGGED_IN_VALUE,
 } from "../config/app";
+import { DEMO_ADMINS, DEMO_USERS } from "../config/constants";
 import { useLoginMutation } from "../hooks/useLoginMutation";
 import Alert from "../nsw/ui/components/Alert";
 import Card from "../nsw/ui/components/Card";
@@ -101,6 +103,20 @@ const LoginPage = (): React.ReactElement => {
           subheader="Please sign in to continue"
           className="px-6 pt-6 pb-4"
         />
+
+        {IS_DEMO_MOE && (
+          <div className="p-6">
+            <div className="mb-1">Demo Users</div>
+            {[...DEMO_ADMINS, ...DEMO_USERS].map(
+              ({ username, password }, index) => (
+                <div key={index} className="mb-1">
+                  <p>username: {username}</p>
+                  <p>password: {password}</p>
+                </div>
+              ),
+            )}
+          </div>
+        )}
 
         <CardContent className="pt-4 px-6 pb-6">
           <form onSubmit={handleSubmit(onSubmit)}>

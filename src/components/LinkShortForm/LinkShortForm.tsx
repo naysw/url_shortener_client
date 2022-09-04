@@ -11,7 +11,6 @@ import TextField from "../../nsw/ui/components/TextField";
 import Typography from "../../nsw/ui/components/Typography";
 import { UrlModel } from "../../types";
 import CopyButton from "../CopyButton";
-import UrlHistory from "../LinkHistory";
 
 interface FormValues {
   fullUrl: string;
@@ -21,7 +20,7 @@ interface FormValues {
 const LinkShortForm = () => {
   const [showAdvanced, setShowAdvanced] = React.useState<boolean>(false);
   const { mutate, isLoading } = useUrlShortMutation();
-  const { history, setHistory } = useLinkHistory();
+  const { setHistory } = useLinkHistory();
 
   const validationSchema = Yup.object({
     fullUrl: Yup.string()
@@ -153,8 +152,6 @@ const LinkShortForm = () => {
           {errors.fullUrl.message}
         </Alert>
       )}
-
-      {history && history.length ? <UrlHistory /> : null}
     </div>
   );
 };
