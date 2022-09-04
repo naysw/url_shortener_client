@@ -111,7 +111,7 @@ const Dashboard = () => {
 
                 <Pagination
                   hasPrePage={Boolean(query.skip === 0)}
-                  hasNextPage={Boolean(data.data.length)}
+                  hasNextPage={Boolean(data.data.length >= DEFAULT_TAKE)}
                   count={20}
                   onNext={handleChangeNext}
                   onPre={handleChangePre}
