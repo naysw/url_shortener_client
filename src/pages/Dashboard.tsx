@@ -10,6 +10,7 @@ import QueryStateHandler from "../components/QueryStateHandler";
 import { DEFAULT_TAKE } from "../config/app";
 import { QUERY_KEYS } from "../config/constants";
 import useAuth from "../hooks/useAuth";
+import TableSkeleton from "../nsw/components/TableSkeleton";
 import TextField from "../nsw/ui/components/TextField";
 import Typography from "../nsw/ui/components/Typography";
 import { Paths } from "../paths";
@@ -86,7 +87,7 @@ const Dashboard = () => {
             status={status}
             error={error}
             data={data}
-            renderLoading={<div>Loading</div>}
+            renderLoading={<TableSkeleton />}
           >
             {({ data: links }: any) => (
               <div>
