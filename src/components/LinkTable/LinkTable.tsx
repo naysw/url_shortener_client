@@ -2,6 +2,7 @@ import { ChartBarIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import React from "react";
 import { Column } from "react-table";
+import { toast } from "react-toastify";
 import { useDeleteLinkMutation } from "../../hooks/useDeleteLinkMutation";
 import DataTable from "../../nsw/components/DataTable";
 import IconButton from "../../nsw/ui/components/IconButton";
@@ -22,7 +23,14 @@ const LinkTable = ({ urls }: Props) => {
   }, []);
 
   const handleDelete = React.useCallback((urlId: string) => {
-    if (window.confirm("Are you sure you want to delete ?")) mutate(urlId);
+    if (window.confirm("Are you sure you want to delete ?"))
+      mutate(urlId, {
+        onSuccess: () => toast.success("Link deleted successfully"),
+        onError: (error: any) =>
+          toast.error(
+            error?.message || "Something went wrong, please try again!",
+          ),
+      });
   }, []);
 
   const getFullLink = (fullUrl: string) => {
@@ -53,6 +61,13 @@ const LinkTable = ({ urls }: Props) => {
               <EllipsisHorizontalCircleIcon className="w-6 h-6" />
             </IconButton> */}
           </div>
+        ),
+      },
+      {
+        Header: "Expired At",
+        accessor: "expiredAt",
+        Cell: ({ cell: { value } }) => (
+          <div>{value ? format(new Date(value), "PP") : "-"}</div>
         ),
       },
       {

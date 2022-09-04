@@ -1,5 +1,7 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { UIProvider } from "./components/UIContext/UIContext";
 import "./index.css";
@@ -22,6 +24,8 @@ function App() {
           </Routes>
         </QueryClientProvider>
       </BrowserRouter>
+
+      <ToastContainer hideProgressBar />
     </UIProvider>
   );
 }

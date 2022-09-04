@@ -19,7 +19,7 @@ const Dashboard = () => {
     skip: 0,
     take: DEFAULT_TAKE,
     keyword: "",
-    orderBy: "createdAt",
+    orderBy: "createdAt=desc",
   });
   const [searchValue, setSearchValue] = React.useState<string>("");
   const { data, isLoading, isError } = useQuery(
