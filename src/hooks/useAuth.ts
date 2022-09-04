@@ -41,7 +41,9 @@ export default function useAuth({
   const { data, error } = useQuery([QUERY_KEYS.ME], fetchMe, {
     enabled: hasLoggedInCookie(),
     onError: () => logout(),
+    retry: false,
   });
+
   console.log(useRendersCount());
 
   /**

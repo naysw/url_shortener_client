@@ -2,13 +2,14 @@ import React from "react";
 import useAuth from "../../hooks/useAuth";
 import Button from "../../nsw/ui/components/Button";
 import { hasRole, Roles } from "../../utils/roles";
+import PageLoading from "../PageLoading";
 
 interface Props {}
 
 const AdminGuard: React.FC<React.PropsWithChildren<Props>> = ({ children }) => {
   const { user, logout } = useAuth();
 
-  // if (!user) return <PageLoading open />;
+  if (!user) return <PageLoading open />;
 
   return user && user.roles && hasRole(user.roles, Roles.ADMIN) ? (
     <>{children}</>
