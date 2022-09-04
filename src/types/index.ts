@@ -4,7 +4,7 @@ export interface ServerResponse<TData> {
   statusCode: number;
 }
 
-export interface UrlModel {
+export interface LinkModel {
   id: string;
   shortCode: string;
   fullUrl: string;
@@ -36,3 +36,19 @@ export type Role = {
   id: string;
   name: string;
 };
+
+interface BasicQuery {
+  params?: any;
+}
+
+export interface FetchLinksQuery extends BasicQuery {}
+
+export interface LoginPaylod {
+  username: string;
+  password: string;
+}
+
+export interface MakeShortMutatonPayload {
+  fullUrl: string;
+  expiredAt?: string;
+}

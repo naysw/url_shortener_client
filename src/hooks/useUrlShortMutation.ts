@@ -1,8 +1,23 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationResult,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { makeShort } from "../api/link";
 import { QUERY_KEYS } from "../config/constants";
+import { LinkModel, MakeShortMutatonPayload, ServerResponse } from "../types";
 
-export function useUrlShortMutation() {
+/**
+ * use url short mutation
+ *
+ * @returns UseMutationResult<ServerResponse<LinkModel>, unknown, MakeShortMutatonPayload, unknown>
+ */
+export const useUrlShortMutation = (): UseMutationResult<
+  ServerResponse<LinkModel>,
+  Error,
+  MakeShortMutatonPayload,
+  unknown
+> => {
   const queryClient = useQueryClient();
 
   return useMutation(makeShort, {
@@ -11,4 +26,4 @@ export function useUrlShortMutation() {
       queryClient.invalidateQueries([QUERY_KEYS.LINKS]);
     },
   });
-}
+};

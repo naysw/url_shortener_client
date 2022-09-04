@@ -1,7 +1,7 @@
-import { UrlModel } from "../../types";
+import { LinkModel } from "../../types";
 import CopyButton from "../CopyButton";
 
-interface Props extends UrlModel {}
+interface Props extends LinkModel {}
 
 const LinkItem = ({ fullUrl, shortUrl }: Props) => {
   return (

@@ -6,6 +6,6 @@ interface Options {
   onError: (...args: any) => void;
 }
 
-export const useMeQuery = ({ enabled, onError }: Options) => {
+export const useMeQuery = ({ enabled }: Options) => {
   return useQuery(["me"], fetchMe, { enabled: !!enabled });
 };

@@ -7,14 +7,14 @@ import { useDeleteLinkMutation } from "../../hooks/useDeleteLinkMutation";
 import DataTable from "../../nsw/components/DataTable";
 import IconButton from "../../nsw/ui/components/IconButton";
 import Typography from "../../nsw/ui/components/Typography";
-import { UrlModel } from "../../types";
+import { LinkModel } from "../../types";
 import { getShortName } from "../../utils/string";
 import CopyButton from "../CopyButton";
 import TableHeader from "../TableHeader";
 import { useUI } from "../UIContext/UIContext";
 
 interface Props {
-  urls: UrlModel[];
+  urls: LinkModel[];
   setQuery: (value: any) => void;
 }
 

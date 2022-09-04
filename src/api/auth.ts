@@ -1,7 +1,15 @@
 import axiosClient from "../lib/axios";
-import { LoginResponse, ServerResponse } from "../types";
+import { LoginPaylod, LoginResponse, ServerResponse } from "../types";
 
-export async function login(payload: any) {
+/**
+ * login api
+ *
+ * @param payload LoginPayload
+ * @returns
+ */
+export async function login(
+  payload: LoginPaylod,
+): Promise<ServerResponse<LoginResponse>> {
   const res = await axiosClient.post<ServerResponse<LoginResponse>>(
     "api/auth/login",
     payload,

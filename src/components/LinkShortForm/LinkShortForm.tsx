@@ -9,7 +9,7 @@ import Alert from "../../nsw/ui/components/Alert";
 import Button from "../../nsw/ui/components/Button";
 import TextField from "../../nsw/ui/components/TextField";
 import Typography from "../../nsw/ui/components/Typography";
-import { UrlModel } from "../../types";
+import { LinkModel } from "../../types";
 import CopyButton from "../CopyButton";
 
 interface FormValues {
@@ -58,7 +58,7 @@ const LinkShortForm = () => {
     fullUrl,
     shortCode,
     shortUrl: link,
-  }: UrlModel) => {
+  }: LinkModel) => {
     setHistory((pre: any) => [
       { id, fullUrl, shortCode, shortUrl: link },
       ...pre,

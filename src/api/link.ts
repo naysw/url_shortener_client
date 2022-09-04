@@ -1,38 +1,67 @@
 import axiosClient from "../lib/axios";
-import { ServerResponse, UrlModel } from "../types";
+import {
+  FetchLinksQuery,
+  LinkModel,
+  MakeShortMutatonPayload,
+  ServerResponse,
+} from "../types";
 
-interface MakeShortPayload {
-  fullUrl: string;
-  expiredAt?: string;
-}
-
-export const fetchLinks = async (payload: any) => {
+/**
+ * fetch links query
+ *
+ * @param payload
+ * @returns Promise<ServerResponse<LinkModel[]>>
+ */
+export const fetchLinks = async (
+  payload: FetchLinksQuery,
+): Promise<ServerResponse<LinkModel[]>> => {
   console.log(payload);
-  const res = await axiosClient.get<ServerResponse<UrlModel[]>>("api/links", {
+  const res = await axiosClient.get<ServerResponse<LinkModel[]>>("api/links", {
     params: payload.params,
   });
 
   return res.data;
 };
 
-export const fetctLinkDetails = async (id: string) => {
-  const res = await axiosClient.get<ServerResponse<UrlModel>>(
+/**
+ * fetch link detail query
+ *
+ * @param id string
+ * @returns Promise<ServerResponse<UrlModel>>
+ */
+export const fetctLinkDetails = async (
+  id: string,
+): Promise<ServerResponse<LinkModel>> => {
+  const res = await axiosClient.get<ServerResponse<LinkModel>>(
     `api/links/${id}`,
   );
 
   return res.data;
 };
 
-export const fetchMyLinks = async () => {
-  const res = await axiosClient.get<ServerResponse<UrlModel[]>>(
+/**
+ * fetch auth user links query
+ *
+ * @returns Promise<ServerResponse<LinkModel[]>>
+ */
+export const fetchMyLinks = async (): Promise<ServerResponse<LinkModel[]>> => {
+  const res = await axiosClient.get<ServerResponse<LinkModel[]>>(
     "api/links/my-links",
   );
 
   return res.data;
 };
 
-export const makeShort = async (payload: MakeShortPayload) => {
-  const res = await axiosClient.post<ServerResponse<UrlModel>>(
+/**
+ * make short url
+ *
+ * @param payload MakeShortMutatonPayload
+ * @returns
+ */
+export const makeShort = async (
+  payload: MakeShortMutatonPayload,
+): Promise<ServerResponse<LinkModel>> => {
+  const res = await axiosClient.post<ServerResponse<LinkModel>>(
     "/api/links/short",
     payload,
   );
@@ -40,8 +69,18 @@ export const makeShort = async (payload: MakeShortPayload) => {
   return res.data;
 };
 
-export const deleteUrl = async (urlId: string) => {
-  const res = await axiosClient.delete(`api/links/${urlId}`);
+/**
+ * delete link by id
+ *
+ * @param linkId string
+ * @returns Promise<ServerResponse<LinkModel>>
+ */
+export const deleteUrl = async (
+  linkId: string,
+): Promise<ServerResponse<LinkModel>> => {
+  const res = await axiosClient.delete<ServerResponse<LinkModel>>(
+    `api/links/${linkId}`,
+  );
 
   return res.data;
 };

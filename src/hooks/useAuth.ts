@@ -26,6 +26,18 @@ export default function useAuth({
   redireactIfUnauthenticated = true,
 }: Props = {}) {
   const navigate = useNavigate();
+
+  /**
+   * get access token from cookie
+   *
+   * @returns boolean
+   */
+  const hasLoggedInCookie = (): boolean => {
+    const isLoggedInCookie = Cookies.get(IS_LOGGED_IN_KEY);
+
+    return Boolean(isLoggedInCookie) && isLoggedInCookie === IS_LOGGED_IN_VALUE;
+  };
+
   const { data, error } = useQuery([QUERY_KEYS.ME], fetchMe, {
     enabled: hasLoggedInCookie(),
     onError: () => logout(),
@@ -37,7 +49,7 @@ export default function useAuth({
    *
    * @return void
    */
-  function logout(): void {
+  const logout = (): void => {
     /**
      * remove isLoggedIn cookie
      */
@@ -52,18 +64,8 @@ export default function useAuth({
      * redirect to unauthenticated page
      */
     navigate(REDIRECT_IF_UNAUTHENTICATED);
-  }
+  };
 
-  /**
-   * get access token from cookie
-   *
-   * @returns boolean
-   */
-  function hasLoggedInCookie(): boolean {
-    const isLoggedInCookie = Cookies.get(IS_LOGGED_IN_KEY);
-
-    return Boolean(isLoggedInCookie) && isLoggedInCookie === IS_LOGGED_IN_VALUE;
-  }
   /**
    * assign finished as a boolean to indicate if the request is finished
    */
