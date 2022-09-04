@@ -80,9 +80,11 @@ const LinkShortForm = () => {
   const handleOnKeyPress = (
     event: React.KeyboardEvent<HTMLInputElement>,
   ): void => {
-    if (/^[\w-_.]*$/.test(event.key)) {
-      //
-    } else event.preventDefault();
+    // if (/^[\w-_.]*$/.test(event.key)) {
+    //   //
+    // } else event.preventDefault();
+
+    return;
   };
 
   /**

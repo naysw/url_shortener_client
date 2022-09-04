@@ -25,10 +25,20 @@ const LinkTable = ({ urls, queryState, setQueryState, loading }: Props) => {
   const { mutate, isLoading: isDeleting } = useDeleteLinkMutation();
   const { setDialog } = useUI();
 
+  /**
+   * handle view link details and statistics
+   *
+   * @return void
+   */
   const handleViewDetails = React.useCallback((urlId: string) => {
     setDialog({ name: "LINK_STATISTICS_DIALOG", data: urlId });
   }, []);
 
+  /**
+   * handle delete given url id, require window confirm
+   *
+   * @reutrn void
+   */
   const handleDelete = React.useCallback((urlId: string) => {
     if (window.confirm("Are you sure you want to delete ?"))
       mutate(urlId, {
