@@ -3,6 +3,7 @@ import LinkHistory from "../components/LinkHistory";
 import LinkItemSkeleton from "../components/LinkItemSkeleton";
 import LinkShortForm from "../components/LinkShortForm";
 import useAuth from "../hooks/useAuth";
+import Typography from "../nsw/ui/components/Typography";
 import { Paths } from "../paths";
 
 const Home = () => {
@@ -10,11 +11,20 @@ const Home = () => {
 
   return (
     <Layout>
-      <div className="py-10">
+      <div className="py-10 ">
         {user ? (
           <div>
-            <LinkShortForm />
-            <LinkHistory />
+            <div className="text-center my-10">
+              <Typography variant="h2">URL Shortener</Typography>
+              <Typography className="text-gray-600">
+                Simplify your links, track and manage them
+              </Typography>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <LinkShortForm />
+              <LinkHistory />
+            </div>
           </div>
         ) : (
           <div>

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { APP_NAME } from "../../config/app";
 import useAuth from "../../hooks/useAuth";
 import { Paths } from "../../paths";
 import { hasRole, Roles } from "../../utils/roles";
@@ -12,7 +13,7 @@ const Navbar = () => {
     <div className="my-6 flex items-center mb-8">
       <div className="flex-1">
         <Link to={Paths.HOME}>
-          <h1 className=" font-bold text-4xl">Shorten URLs</h1>
+          <h1 className=" font-bold text-4xl">{APP_NAME}</h1>
         </Link>
       </div>
 

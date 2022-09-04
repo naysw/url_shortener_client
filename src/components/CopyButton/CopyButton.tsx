@@ -1,6 +1,7 @@
 import { CheckIcon, ClipboardIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
 import IconButton from "../../nsw/ui/components/IconButton";
 
 interface Props {
@@ -11,9 +12,18 @@ interface Props {
 const CopyButton = ({ text, onCopy }: Props) => {
   const [copy, setCopy] = React.useState(false);
 
-  const handleCopy = (text: string, result: boolean) => {
+  /**
+   * handle copy given text
+   *
+   * @param text string
+   * @param result boolean
+   * @retun void
+   */
+  const handleCopy = (text: string, result: boolean): void => {
     setCopy(true);
     onCopy && typeof onCopy === "function" && onCopy(text, result);
+
+    toast.success("URL has been copied");
 
     setTimeout(() => {
       setCopy(false);

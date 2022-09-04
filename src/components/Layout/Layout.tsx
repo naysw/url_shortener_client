@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "../../nsw/ui/components/Container";
 import Navbar from "../Navbar";
 import StatisticsDialog from "../StatisticsDialog";
 import { useUI } from "../UIContext/UIContext";
@@ -28,12 +29,14 @@ const DialogUI = () => {
 
 const Layout: React.FC<React.PropsWithChildren<Props>> = ({ children }) => {
   return (
-    <div className="container max-w-4xl mx-auto">
-      <Navbar />
+    <div className="">
+      <Container className="">
+        <Navbar />
 
-      <DialogUI />
+        <DialogUI />
 
-      {children}
+        {children}
+      </Container>
     </div>
   );
 };

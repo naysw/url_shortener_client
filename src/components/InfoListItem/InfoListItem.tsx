@@ -17,7 +17,7 @@ const InfoListItem = ({
       })}
 
       <div>
-        <Typography className="dark:text-white font-semibold">
+        <Typography className="dark:text-white font-semibold break-all">
           {title}
         </Typography>
 

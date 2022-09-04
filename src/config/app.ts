@@ -1,6 +1,6 @@
 import { Paths } from "../paths";
 
-export const APP_NAME = "";
+export const APP_NAME = "Short";
 export const DEMO_MODE = false;
 export const ACCESS_TOKEN = "snL61wkX0PvjKmHmvhrZZQmCgMpBIbcs";
 

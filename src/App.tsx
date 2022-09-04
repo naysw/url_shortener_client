@@ -33,7 +33,7 @@ function App() {
         </QueryClientProvider>
       </BrowserRouter>
 
-      <ToastContainer hideProgressBar />
+      <ToastContainer hideProgressBar position="bottom-right" />
     </UIProvider>
   );
 }

@@ -59,6 +59,9 @@ const LinkShortForm = () => {
     shortCode,
     shortUrl: link,
   }: LinkModel) => {
+    /**
+     * we save data to localStorage if we use localStorage as temp database
+     */
     setHistory((pre: any) => [
       { id, fullUrl, shortCode, shortUrl: link },
       ...pre,
@@ -68,12 +71,32 @@ const LinkShortForm = () => {
     setFocus("fullUrl", { shouldSelect: true });
   };
 
-  const onSubmit = ({ fullUrl, expiredAt }: FormValues) => {
+  /**
+   * handle on key press
+   *
+   * @param event React.KeyboardEvent<HTMLInputElement>
+   * @return void
+   */
+  const handleOnKeyPress = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ): void => {
+    if (/^[\w-_.]*$/.test(event.key)) {
+      //
+    } else event.preventDefault();
+  };
+
+  /**
+   * handle submit
+   *
+   * @param param0 FormValues
+   * @return void
+   */
+  const onSubmit = ({ fullUrl, expiredAt }: FormValues): void => {
     mutate(
       { fullUrl, expiredAt: expiredAt || undefined },
       {
         onSuccess: ({ data }) => handleSuccess(data),
-        onError: (error: any) => {
+        onError: (error) => {
           setError(
             "fullUrl",
             {
@@ -89,7 +112,7 @@ const LinkShortForm = () => {
   };
 
   return (
-    <div className="mx-auto">
+    <div className="">
       <form onSubmit={handleSubmit(onSubmit)} className="mb-10">
         <div className="space-y-4">
           <TextField
@@ -103,6 +126,7 @@ const LinkShortForm = () => {
             error={
               touchedFields.fullUrl && errors.fullUrl && Boolean(errors.fullUrl)
             }
+            onKeyPress={handleOnKeyPress}
             // helperText={
             //   touchedFields.fullUrl &&
             //   errors.fullUrl &&

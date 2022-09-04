@@ -15,6 +15,7 @@ const AdminGuard: React.FC<React.PropsWithChildren<Props>> = ({ children }) => {
   ) : (
     <div className="text-center py-8">
       <div className="mb-4">You are not authorized to access this page</div>
+
       <Button onClick={logout} className="bg-red-600 text-white">
         Logout
       </Button>
