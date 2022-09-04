@@ -20,3 +20,8 @@ export interface User {
   name: string;
   username: string;
 }
+
+export interface Visit {
+  id: string;
+  ip: string;
+}

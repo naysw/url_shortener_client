@@ -1,7 +1,10 @@
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { LinkIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useLinkDetailsQuery } from "../../hooks/useLinkDetailsQuery";
 import Dialog from "../../nsw/ui/components/Dialog";
+import Typography from "../../nsw/ui/components/Typography";
+import InfoListItem from "../InfoListItem";
 import QueryStateHandler from "../QueryStateHandler";
+import VisitTable from "../VisitTable";
 
 interface Props {
   open: boolean;
@@ -52,7 +55,31 @@ const StatisticsDialog = ({ open, linkId, onClose }: Props) => {
             </div>
           }
         >
-          {() => <div>Hello</div>}
+          {({ data: link }: any) => (
+            <div className="p-6">
+              <Typography variant="h4">Link Details</Typography>
+
+              <div className="mb-6 mt-4">
+                <InfoListItem
+                  icon={<LinkIcon />}
+                  title="Full Url"
+                  value={link.fullUrl}
+                />
+
+                <InfoListItem
+                  icon={<LinkIcon />}
+                  title="Short Url"
+                  value={link.shortUrl}
+                />
+              </div>
+
+              <div className="mb-4 flex items-center">
+                <Typography className="flex-1">Visited History</Typography>
+                <Typography>Count: {link?.visits.length}</Typography>
+              </div>
+              <VisitTable visits={link?.visits || []} />
+            </div>
+          )}
         </QueryStateHandler>
       </div>
     </Dialog>
