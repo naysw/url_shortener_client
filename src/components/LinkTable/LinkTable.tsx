@@ -1,4 +1,4 @@
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { ChartBarIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import React from "react";
 import { Column } from "react-table";
@@ -7,6 +7,7 @@ import DataTable from "../../nsw/components/DataTable";
 import IconButton from "../../nsw/ui/components/IconButton";
 import { UrlModel } from "../../types";
 import CopyButton from "../CopyButton";
+import { useUI } from "../UIContext/UIContext";
 
 interface Props {
   urls: UrlModel[];
@@ -14,6 +15,11 @@ interface Props {
 
 const LinkTable = ({ urls }: Props) => {
   const { mutate, isLoading: isDeleting } = useDeleteLinkMutation();
+  const { setDialog } = useUI();
+
+  const handleViewDetails = React.useCallback((urlId: string) => {
+    setDialog({ name: "LINK_STATISTICS_DIALOG", data: urlId });
+  }, []);
 
   const handleDelete = React.useCallback((urlId: string) => {
     if (window.confirm("Are you sure you want to delete ?")) mutate(urlId);
@@ -65,8 +71,13 @@ const LinkTable = ({ urls }: Props) => {
             row: { original },
           },
         }: any) => (
-          <div>
+          <div className="flex">
             <CopyButton text={original.shortUrl} />
+
+            <IconButton onClick={() => handleViewDetails(original.id)}>
+              <ChartBarIcon className="w-6 h-6" />
+            </IconButton>
+
             <IconButton
               disabled={isDeleting}
               onClick={() => handleDelete(original.id)}
