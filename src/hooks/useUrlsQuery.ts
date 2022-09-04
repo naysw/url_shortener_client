@@ -11,5 +11,7 @@ import { FetchLinksQuery, LinkModel, ServerResponse } from "../types";
 export const useLinksQuery = (
   payload: FetchLinksQuery,
 ): UseQueryResult<ServerResponse<LinkModel[]>, Error> => {
-  return useQuery([QUERY_KEYS.LINKS, payload], () => fetchLinks(payload));
+  return useQuery([QUERY_KEYS.LINKS, payload], () => fetchLinks(payload), {
+    enabled: !!payload,
+  });
 };

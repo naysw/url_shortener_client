@@ -21,11 +21,11 @@ export const useDeleteLinkMutation = (): UseMutationResult<
   const queryClient = useQueryClient();
 
   return useMutation(deleteUrl, {
-    onMutate: () => {
-      // queryClient.
+    onMutate: async () => {
+      await queryClient.cancelQueries([QUERY_KEYS.LINKS]);
     },
-    onSettled: () => {
-      queryClient.invalidateQueries([QUERY_KEYS.LINKS]);
+    onSettled: async () => {
+      await queryClient.invalidateQueries([QUERY_KEYS.LINKS]);
     },
   });
 };

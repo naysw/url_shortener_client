@@ -28,12 +28,12 @@ const Home = () => {
           </div>
         ) : (
           <div>
-            <div className="mb-6">
-              <div className="bg-gray-200 select-none text-transparent w-full h-12 rounded-md animate-pulse mb-6">
+            <div className="my-10 text-center ">
+              <div className="bg-gray-200 mx-auto max-w-sm select-none text-transparent h-6 rounded-md animate-pulse mb-3">
                 Text Field
               </div>
 
-              <div className="bg-gray-200 select-none text-transparent w-full h-12 rounded-md animate-pulse">
+              <div className="bg-gray-200 mx-auto max-w-md select-none text-transparent h-4 rounded-md animate-pulse">
                 Button
               </div>
             </div>
