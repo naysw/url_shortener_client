@@ -13,35 +13,33 @@ import TableSkeleton from "../nsw/components/TableSkeleton";
 import TextField from "../nsw/ui/components/TextField";
 import Typography from "../nsw/ui/components/Typography";
 import { Paths } from "../paths";
+import { OrderBy, Query } from "../types";
 
 const Dashboard = () => {
   const { user } = useAuth({ redireactIfUnauthenticated: Paths.LOGIN });
-  const [query, setQuery] = React.useState({
+  const [queryState, setQueryState] = React.useState<Query<OrderBy>>({
     skip: 0,
     take: DEFAULT_TAKE,
     keyword: "",
     orderBy: "createdAt=desc",
   });
   const [searchValue, setSearchValue] = React.useState<string>("");
-  const { status, error, data } = useQuery(
-    [QUERY_KEYS.LINKS, query],
+  const { status, error, data, isRefetching } = useQuery(
+    [QUERY_KEYS.LINKS, queryState],
     () =>
       fetchLinks({
         params: {
-          skip: query.skip,
-          take: query.take,
-          keyword: query.keyword || undefined,
-          orderBy: query.orderBy || undefined,
+          skip: queryState.skip,
+          take: queryState.take,
+          keyword: queryState.keyword || undefined,
+          orderBy: queryState.orderBy || undefined,
         },
       }),
-    // {
-    //   enabled: Boolean(keyword),
-    // },
   );
 
-  const [] = useDebounce(
+  useDebounce(
     () => {
-      setQuery((pre) => ({ ...pre, keyword: searchValue }));
+      setQueryState((pre) => ({ ...pre, keyword: searchValue }));
     },
     500,
     [searchValue],
@@ -55,20 +53,29 @@ const Dashboard = () => {
   const handleChangeSearchInput = (
     event: React.FormEvent<HTMLInputElement>,
   ): void => {
-    const value = event.currentTarget.value.trim();
-
-    setQuery((pre) => ({ ...pre, keyword: value ? value : "" }));
-    // setSearchValue(event.currentTarget.value.trim());
+    setSearchValue(event.currentTarget.value.trim());
   };
 
-  const handleChangeNext = () => {
-    setQuery((pre) => ({ ...pre, skip: pre.skip + DEFAULT_TAKE }));
+  /**
+   * handle onChange next page
+   * add default take number to previous skip number
+   *
+   * @return void
+   */
+  const handleChangeNext = (): void => {
+    setQueryState((pre) => ({ ...pre, skip: Number(pre.skip) + DEFAULT_TAKE }));
   };
 
+  /**
+   * handle onChange pre page
+   * minus default take number from previous skip number
+   *
+   * @returns void
+   */
   const handleChangePre = () => {
-    if (query.skip === 0) return;
+    if (queryState.skip === 0) return;
 
-    setQuery((pre) => ({ ...pre, skip: pre.skip - DEFAULT_TAKE }));
+    setQueryState((pre) => ({ ...pre, skip: Number(pre.skip) - DEFAULT_TAKE }));
   };
 
   return (
@@ -92,6 +99,7 @@ const Dashboard = () => {
               <div>
                 <div className="mb-6">
                   <TextField
+                    value={searchValue}
                     onChange={handleChangeSearchInput}
                     type="search"
                     inputSize="small"
@@ -100,14 +108,19 @@ const Dashboard = () => {
                 </div>
 
                 <div className="overflow-x-auto">
-                  <LinkTable urls={links} setQuery={setQuery} />
+                  <LinkTable
+                    urls={links}
+                    queryState={queryState}
+                    setQueryState={setQueryState}
+                    loading={isRefetching}
+                  />
                 </div>
 
                 <div className="flex items-center mt-6">
                   <div className="flex-1">Showing {links.length}</div>
 
                   <Pagination
-                    hasPrePage={Boolean(query.skip === 0)}
+                    hasPrePage={Boolean(queryState.skip === 0)}
                     hasNextPage={Boolean(links.length >= DEFAULT_TAKE)}
                     count={20}
                     onNext={handleChangeNext}

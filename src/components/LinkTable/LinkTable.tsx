@@ -6,8 +6,9 @@ import { toast } from "react-toastify";
 import { useDeleteLinkMutation } from "../../hooks/useDeleteLinkMutation";
 import DataTable from "../../nsw/components/DataTable";
 import IconButton from "../../nsw/ui/components/IconButton";
+import LinearProgress from "../../nsw/ui/components/LinearProgress";
 import Typography from "../../nsw/ui/components/Typography";
-import { LinkModel } from "../../types";
+import { LinkModel, OrderBy, Query } from "../../types";
 import { getShortName } from "../../utils/string";
 import CopyButton from "../CopyButton";
 import TableHeader from "../TableHeader";
@@ -15,10 +16,12 @@ import { useUI } from "../UIContext/UIContext";
 
 interface Props {
   urls: LinkModel[];
-  setQuery: (value: any) => void;
+  queryState: Query<OrderBy>;
+  setQueryState: React.Dispatch<React.SetStateAction<Query<OrderBy>>>;
+  loading?: boolean;
 }
 
-const LinkTable = ({ urls, setQuery }: Props) => {
+const LinkTable = ({ urls, queryState, setQueryState, loading }: Props) => {
   const { mutate, isLoading: isDeleting } = useDeleteLinkMutation();
   const { setDialog } = useUI();
 
@@ -41,9 +44,11 @@ const LinkTable = ({ urls, setQuery }: Props) => {
     //
   };
 
-  const toggleVisited = () => {
-    console.log("first");
-    // setQuery((pre: any) => ({ ...pre, visited: "asc" }));
+  const toggleOrderBy = (key: "createdAt" | "expiredAt") => {
+    setQueryState((pre) => ({
+      ...pre,
+      orderBy: pre.orderBy === `${key}=desc` ? `${key}=asc` : `${key}=desc`,
+    }));
   };
 
   const columns = React.useMemo<Column[]>(
@@ -81,14 +86,25 @@ const LinkTable = ({ urls, setQuery }: Props) => {
         ),
       },
       {
-        Header: <TableHeader>Expired At</TableHeader>,
+        Header: (
+          <TableHeader onToggle={() => toggleOrderBy("expiredAt")}>
+            Expired At
+          </TableHeader>
+        ),
         accessor: "expiredAt",
         Cell: ({ cell: { value } }) => (
           <div>{value ? format(new Date(value), "PP") : "-"}</div>
         ),
       },
       {
-        Header: <TableHeader>Created</TableHeader>,
+        Header: (
+          <TableHeader
+            arrow={queryState.orderBy === "createdAt=desc" ? "up" : "down"}
+            onToggle={() => toggleOrderBy("createdAt")}
+          >
+            Created
+          </TableHeader>
+        ),
         accessor: "createdAt",
         Cell: ({ cell: { value } }) => (
           <div>{format(new Date(value), "PP")}</div>
@@ -127,7 +143,12 @@ const LinkTable = ({ urls, setQuery }: Props) => {
     [handleDelete],
   );
 
-  return <DataTable columns={columns} data={urls} />;
+  return (
+    <div>
+      {loading && <LinearProgress />}
+      <DataTable columns={columns} data={urls} />
+    </div>
+  );
 };
 
 export default LinkTable;

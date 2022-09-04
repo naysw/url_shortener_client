@@ -1,3 +1,16 @@
+export interface Query<TOrderBy = unknown> {
+  skip?: number;
+  take?: number;
+  keyword?: string;
+  orderBy?: TOrderBy;
+}
+
+export type OrderBy =
+  | "createdAt=desc"
+  | "createdAt=asc"
+  | "expiredAt=desc"
+  | "expiredAt=asc";
+
 export interface ServerResponse<TData> {
   data: TData;
   message?: string;
