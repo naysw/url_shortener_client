@@ -6,6 +6,7 @@ import { fetchLinks } from "../api/link";
 import Layout from "../components/Layout";
 import LinkTable from "../components/LinkTable";
 import Pagination from "../components/Pagination";
+import QueryStateHandler from "../components/QueryStateHandler";
 import { DEFAULT_TAKE } from "../config/app";
 import { QUERY_KEYS } from "../config/constants";
 import useAuth from "../hooks/useAuth";
@@ -22,7 +23,7 @@ const Dashboard = () => {
     orderBy: "createdAt=desc",
   });
   const [searchValue, setSearchValue] = React.useState<string>("");
-  const { data, isLoading, isError } = useQuery(
+  const { status, error, data } = useQuery(
     [QUERY_KEYS.LINKS, query],
     () =>
       fetchLinks({
@@ -81,46 +82,51 @@ const Dashboard = () => {
             </Typography>
           </div>
 
-          {data && !isLoading && !isError ? (
-            <div>
-              <div className="my-4 flex">
-                <div className="flex-1">
-                  <Link
-                    to={{
-                      pathname: "/admin",
-                      search: "?orderBy=visits",
-                    }}
-                  >
-                    Popular
-                  </Link>
+          <QueryStateHandler
+            status={status}
+            error={error}
+            data={data}
+            renderLoading={<div>Loading</div>}
+          >
+            {({ data: links }: any) => (
+              <div>
+                <div className="my-4 flex">
+                  <div className="flex-1">
+                    <Link
+                      to={{
+                        pathname: "/admin",
+                        search: "?orderBy=visits",
+                      }}
+                    >
+                      Popular
+                    </Link>
+                  </div>
+                  <TextField
+                    onChange={handleChangeSearchInput}
+                    type="search"
+                    inputSize="small"
+                    placeholder="Search"
+                  />
                 </div>
-                <TextField
-                  onChange={handleChangeSearchInput}
-                  type="search"
-                  inputSize="small"
-                  placeholder="Search"
-                />
-              </div>
 
-              <div className="overflow-x-auto">
-                <LinkTable urls={data.data} />
-              </div>
+                <div className="overflow-x-auto">
+                  <LinkTable urls={links} setQuery={setQuery} />
+                </div>
 
-              <div className="flex items-center mt-6">
-                <div className="flex-1">Showing {data.data.length}</div>
+                <div className="flex items-center mt-6">
+                  <div className="flex-1">Showing {links.length}</div>
 
-                <Pagination
-                  hasPrePage={Boolean(query.skip === 0)}
-                  hasNextPage={Boolean(data.data.length >= DEFAULT_TAKE)}
-                  count={20}
-                  onNext={handleChangeNext}
-                  onPre={handleChangePre}
-                />
+                  <Pagination
+                    hasPrePage={Boolean(query.skip === 0)}
+                    hasNextPage={Boolean(links.length >= DEFAULT_TAKE)}
+                    count={20}
+                    onNext={handleChangeNext}
+                    onPre={handleChangePre}
+                  />
+                </div>
               </div>
-            </div>
-          ) : (
-            <div>Loading</div>
-          )}
+            )}
+          </QueryStateHandler>
         </>
       ) : (
         <>Loading</>

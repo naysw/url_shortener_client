@@ -1,4 +1,5 @@
 import { ChartBarIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { ArrowDownIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 import React from "react";
 import { Column } from "react-table";
@@ -6,15 +7,18 @@ import { toast } from "react-toastify";
 import { useDeleteLinkMutation } from "../../hooks/useDeleteLinkMutation";
 import DataTable from "../../nsw/components/DataTable";
 import IconButton from "../../nsw/ui/components/IconButton";
+import Typography from "../../nsw/ui/components/Typography";
 import { UrlModel } from "../../types";
+import { getShortName } from "../../utils/string";
 import CopyButton from "../CopyButton";
 import { useUI } from "../UIContext/UIContext";
 
 interface Props {
   urls: UrlModel[];
+  setQuery: (value: any) => void;
 }
 
-const LinkTable = ({ urls }: Props) => {
+const LinkTable = ({ urls, setQuery }: Props) => {
   const { mutate, isLoading: isDeleting } = useDeleteLinkMutation();
   const { setDialog } = useUI();
 
@@ -37,22 +41,43 @@ const LinkTable = ({ urls }: Props) => {
     //
   };
 
+  const toggleVisited = () => {
+    console.log("first");
+    // setQuery((pre: any) => ({ ...pre, visited: "asc" }));
+  };
+
   const columns = React.useMemo<Column[]>(
     () => [
       {
         Header: "URL",
         accessor: "fullUrl",
         Cell: ({ cell: { value }, row: { original } }: any) => (
-          <div>
-            <a href={value} className="text-blue-600 hover:underline">
-              {value.slice(0, 50)}
-            </a>
-            <div>{original.shortUrl}</div>
+          <div className="flex items-center">
+            <div className="h-10 w-10 bg-red-200 rounded-full p-2 text-center font-bold mr-3">
+              <Typography className="text-red-500">
+                {getShortName(original?.user?.name)}
+              </Typography>
+            </div>
+
+            <div>
+              <a href={value} className="text-blue-600 hover:underline">
+                {value.slice(0, 50)}
+              </a>
+              <div>{original.shortUrl}</div>
+            </div>
           </div>
         ),
       },
       {
-        Header: "Visited",
+        Header: (
+          <div
+            className="uppercase flex cursor-pointer"
+            onClick={toggleVisited}
+          >
+            <span>Visited</span>
+            <ArrowDownIcon className="w-5 h-5" />
+          </div>
+        ),
         accessor: "visits",
         Cell: ({ cell: { value } }) => (
           <div>

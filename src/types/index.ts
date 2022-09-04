@@ -9,6 +9,7 @@ export interface UrlModel {
   shortCode: string;
   fullUrl: string;
   shortUrl: string;
+  _count?: number;
 }
 
 export interface LoginResponse {
