@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Link } from "react-router-dom";
 import { useDebounce } from "react-use";
 import { fetchLinks } from "../api/link";
 import Layout from "../components/Layout";
@@ -91,17 +90,7 @@ const Dashboard = () => {
           >
             {({ data: links }: any) => (
               <div>
-                <div className="my-4 flex">
-                  <div className="flex-1">
-                    <Link
-                      to={{
-                        pathname: "/admin",
-                        search: "?orderBy=visits",
-                      }}
-                    >
-                      Popular
-                    </Link>
-                  </div>
+                <div className="mb-6">
                   <TextField
                     onChange={handleChangeSearchInput}
                     type="search"

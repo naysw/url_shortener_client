@@ -1,5 +1,4 @@
 import { ChartBarIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { ArrowDownIcon } from "@heroicons/react/24/solid";
 import { format } from "date-fns";
 import React from "react";
 import { Column } from "react-table";
@@ -11,6 +10,7 @@ import Typography from "../../nsw/ui/components/Typography";
 import { UrlModel } from "../../types";
 import { getShortName } from "../../utils/string";
 import CopyButton from "../CopyButton";
+import TableHeader from "../TableHeader";
 import { useUI } from "../UIContext/UIContext";
 
 interface Props {
@@ -69,15 +69,7 @@ const LinkTable = ({ urls, setQuery }: Props) => {
         ),
       },
       {
-        Header: (
-          <div
-            className="uppercase flex cursor-pointer"
-            onClick={toggleVisited}
-          >
-            <span>Visited</span>
-            <ArrowDownIcon className="w-5 h-5" />
-          </div>
-        ),
+        Header: <TableHeader>Visited</TableHeader>,
         accessor: "visits",
         Cell: ({ cell: { value } }) => (
           <div>
@@ -89,14 +81,14 @@ const LinkTable = ({ urls, setQuery }: Props) => {
         ),
       },
       {
-        Header: "Expired At",
+        Header: <TableHeader>Expired At</TableHeader>,
         accessor: "expiredAt",
         Cell: ({ cell: { value } }) => (
           <div>{value ? format(new Date(value), "PP") : "-"}</div>
         ),
       },
       {
-        Header: "Created",
+        Header: <TableHeader>Created</TableHeader>,
         accessor: "createdAt",
         Cell: ({ cell: { value } }) => (
           <div>{format(new Date(value), "PP")}</div>
